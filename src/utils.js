@@ -74,7 +74,7 @@ const getQuestionMarkdown = async (year, day) => {
 
     const questionFile = `./src/challenges/${year.toString()}/day-${day
       .toString()
-      .padStart(2, "0")}/question.md`;
+      .padStart(2, "0")}/README.md`;
 
     fs.writeFileSync(
       questionFile,

@@ -1,6 +1,6 @@
-# Advent of Code
+# 🎄 Advent of Code 🎄
 
-AOC challenges.
+Project for AOC challenges and solutions.
 
 ## Setup
 
@@ -8,6 +8,12 @@ Create a .env file with the following:
 
 ```
 SESSION_TOKEN=<aoc-session-token>
+```
+
+Link the package locally:
+
+```sh
+npm link
 ```
 
 ## CLI
@@ -40,7 +46,7 @@ npm test
 
 ## Benchmark
 
-Run benchamrks with:
+Run benchmarks with:
 
 ```sh
 npm run benchmark
