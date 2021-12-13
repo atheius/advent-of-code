@@ -39,7 +39,7 @@ fs.readdir(baseDir, async (err, files) => {
     );
 
     const startTime2 = performance.now();
-    part2(input);
+    part2(input, false);
     const endTime2 = performance.now();
     const perfResult2 = (endTime2 - startTime2) * 1000;
     console.log(
