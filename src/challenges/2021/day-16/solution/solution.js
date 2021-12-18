@@ -13,16 +13,13 @@ const operatorIdMap = {
   7: (x) => (x[0] === x[1] ? 1 : 0),
 };
 
-const processBitStream = (binaryString) => {
+const processBitStream = (binaryString, subPacketDetails) => {
   let packets = [];
   let currentPacket = null;
-  let parentPacket = null;
+  let initBinaryStringLength = binaryString.length;
 
-  for (let i = 0; i < binaryString.length; i += 1) {
-    if (binaryString.length - i < 8) {
-      break;
-    }
-
+  let i = 0;
+  while (binaryString.length - i > 8) {
     currentPacket = {};
     currentPacket.version = binToDec(binaryString.slice(i, i + 3));
     currentPacket.id = binToDec(binaryString.slice(i + 3, i + 6));
@@ -37,14 +34,14 @@ const processBitStream = (binaryString) => {
           binaryString.slice(i + 7, i + 22)
         );
         currentPacket.binary = binaryString.slice(i, i + 22);
-        i += 21;
+        binaryString = binaryString.slice(21);
       } else {
         // The next 11 bits are the number of sub packets
         currentPacket.numSubPackets = binToDec(
           binaryString.slice(i + 7, i + 18)
         );
         currentPacket.binary = binaryString.slice(i, i + 18);
-        i += 17;
+        binaryString = binaryString.slice(17);
       }
     } else {
       // This is a literal packet
@@ -61,26 +58,38 @@ const processBitStream = (binaryString) => {
       }
       currentPacket.literalValue = binToDec(fullLiteralString.join(""));
       currentPacket.binary = fullLiteralString.join("");
-      // discard the zero padding
-      const subPacketLength =
-        sum(parentPacket.subPackets.map((x) => x.binary.length + 6)) +
-        fullLiteralString.join("").length +
-        6;
-      let padding = 0;
-      i += (fullLiteralString.length + 1) * 5 + padding;
+
+      binaryString = binaryString.slice(groupIdx);
     }
 
-    if (!parentPacket) {
-      // this is a parent packet
-      parentPacket = { ...currentPacket };
-      packets.push(parentPacket);
-    } else {
-      // this is a child packet
-      parentPacket.subPackets.push({ ...currentPacket });
+    if (currentPacket.subPackets) {
+      const processRes = processBitStream(binaryString.slice(i + 1), {
+        subPacketsTotalLength: currentPacket.subPacketsTotalLength,
+        numSubPackets: currentPacket.numSubPackets,
+      });
+
+      currentPacket.subPackets.push(...processRes.packets);
+
+      binaryString = processRes.binaryString;
+    }
+
+    packets.push(currentPacket);
+
+    // break loop if subpacket limit reached
+    if (subPacketDetails && subPacketDetails.numSubPackets === packets.length) {
+      // num packets reached
+      break;
+    }
+    if (
+      subPacketDetails &&
+      subPacketDetails.subPacketsTotalLength ===
+        initBinaryStringLength - binaryString.length
+    ) {
+      break;
     }
   }
 
-  return packets;
+  return { packets, binaryString };
 };
 
 const processPackets = (packets, id = null) => {
@@ -100,6 +109,17 @@ const processPackets = (packets, id = null) => {
   return [operatorIdMap[id](values)];
 };
 
+const sumPacketVersion = (packets) => {
+  let total = 0;
+  for (let packet of packets) {
+    if (packet.subPackets) {
+      total += sumPacketVersion(packet.subPackets);
+    }
+    total += packet.version;
+  }
+  return total;
+};
+
 const part1 = (input) => {
   let binaryString = "";
 
@@ -107,10 +127,11 @@ const part1 = (input) => {
     binaryString += hexToBin(char);
   }
 
-  const packets = processBitStream(binaryString);
-  const packetVersions = packets.map((packet) => packet.version);
+  const { packets } = processBitStream(binaryString);
 
-  return sum(packetVersions);
+  const totalPacketVersions = sumPacketVersion(packets);
+
+  return totalPacketVersions;
 };
 
 const part2 = (input) => {
@@ -120,11 +141,7 @@ const part2 = (input) => {
     binaryString += hexToBin(char);
   }
 
-  console.log(binaryString);
-
-  const packets = processBitStream(binaryString);
-
-  console.log(JSON.stringify(packets));
+  const { packets } = processBitStream(binaryString);
 
   const result = processPackets(packets);
 

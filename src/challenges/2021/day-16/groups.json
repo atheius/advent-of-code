@@ -1,0 +1,50 @@
+{
+  "version": 3,
+  "id": 0,
+  "lengthTypeId": "1",
+  "subPackets": [
+    {
+      "version": 0,
+      "id": 0,
+      "lengthTypeId": "0",
+      "subPackets": [
+        {
+          "version": 0,
+          "id": 4,
+          "literalValue": 10,
+          "binary": "1010"
+        }
+      ],
+      "subPacketsTotalLength": 22,
+      "binary": "0000000000000000010110"
+    },
+    {
+      "version": 2,
+      "id": 6,
+      "lengthTypeId": "0",
+      "subPackets": [
+        {
+          "version": 0,
+          "id": 0,
+          "lengthTypeId": "1",
+          "subPackets": [
+            {
+              "version": 1,
+              "id": 6,
+              "lengthTypeId": "0",
+              "subPackets": [],
+              "subPacketsTotalLength": 52,
+              "binary": "00111000110100"
+            }
+          ],
+          "numSubPackets": 70,
+          "binary": "000000100001000110"
+        }
+      ],
+      "subPacketsTotalLength": 11400,
+      "binary": "0101100010110010001000"
+    }
+  ],
+  "numSubPackets": 2,
+  "binary": "011000100000000010"
+}

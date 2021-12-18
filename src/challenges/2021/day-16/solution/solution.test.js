@@ -21,13 +21,13 @@ const example9 = "D8005AC2A8F0";
 const example10 = "F600BC2D8F";
 const example11 = "9C0141080250320F1802104A08";
 
-// test("part 1", (t) => {
-//   t.equal(part1(example1), 16);
-//   t.equal(part1(example2), 12);
-//   t.equal(part1(example3), 23);
-//   t.equal(part1(example4), 31);
-//   t.end();
-// });
+test("part 1", (t) => {
+  t.equal(part1(example1), 16);
+  t.equal(part1(example2), 12);
+  t.equal(part1(example3), 23);
+  t.equal(part1(example4), 31);
+  t.end();
+});
 
 test("part 2", (t) => {
   t.equal(part2(example5), 3);
@@ -36,6 +36,6 @@ test("part 2", (t) => {
   t.equal(part2(example8), 9);
   t.equal(part2(example9), 1);
   t.equal(part2(example10), 0);
-  // t.equal(part2(example11), 1);
+  t.equal(part2(example11), 1);
   t.end();
 });
