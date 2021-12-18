@@ -11,6 +11,12 @@ const readCommaSeperatedNumbers = (input) =>
 
 const sum = (x) => x.reduce((a, b) => a + b, 0);
 
+const product = (x) => x.reduce((a, b) => a * b, 1);
+
+const min = (x) => Math.min(...x);
+
+const max = (x) => Math.max(...x);
+
 const symmetricDifference = (a, b) =>
   a.filter((x) => !b.includes(x)).concat(b.filter((x) => !a.includes(x)));
 
@@ -26,6 +32,9 @@ export {
   readLinesOfDigits,
   readCommaSeperatedNumbers,
   sum,
+  product,
+  min,
+  max,
   difference,
   symmetricDifference,
   transpose,
