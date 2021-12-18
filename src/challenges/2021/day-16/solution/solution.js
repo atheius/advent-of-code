@@ -20,9 +20,10 @@ const processBitStream = (binaryString, subPacketDetails) => {
 
   let i = 0;
   while (binaryString.length - i > 8) {
-    currentPacket = {};
-    currentPacket.version = binToDec(binaryString.slice(i, i + 3));
-    currentPacket.id = binToDec(binaryString.slice(i + 3, i + 6));
+    currentPacket = {
+      version: binToDec(binaryString.slice(i, i + 3)),
+      id: binToDec(binaryString.slice(i + 3, i + 6)),
+    };
 
     if (currentPacket.id !== 4) {
       // This is an operator packet
@@ -58,7 +59,6 @@ const processBitStream = (binaryString, subPacketDetails) => {
       }
       currentPacket.literalValue = binToDec(fullLiteralString.join(""));
       currentPacket.binary = fullLiteralString.join("");
-
       binaryString = binaryString.slice(groupIdx);
     }
 
@@ -67,25 +67,21 @@ const processBitStream = (binaryString, subPacketDetails) => {
         subPacketsTotalLength: currentPacket.subPacketsTotalLength,
         numSubPackets: currentPacket.numSubPackets,
       });
-
       currentPacket.subPackets.push(...processRes.packets);
-
       binaryString = processRes.binaryString;
     }
 
     packets.push(currentPacket);
 
-    // break loop if subpacket limit reached
-    if (subPacketDetails && subPacketDetails.numSubPackets === packets.length) {
-      // num packets reached
-      break;
-    }
-    if (
-      subPacketDetails &&
-      subPacketDetails.subPacketsTotalLength ===
-        initBinaryStringLength - binaryString.length
-    ) {
-      break;
+    // Break out if subpacket number / limit reached
+    if (subPacketDetails) {
+      if (
+        subPacketDetails.numSubPackets === packets.length ||
+        subPacketDetails.subPacketsTotalLength ===
+          initBinaryStringLength - binaryString.length
+      ) {
+        break;
+      }
     }
   }
 
@@ -101,11 +97,9 @@ const processPackets = (packets, id = null) => {
       values.push(packet.literalValue);
     }
   }
-
   if (id === null) {
     return values[0];
   }
-
   return [operatorIdMap[id](values)];
 };
 
@@ -121,31 +115,27 @@ const sumPacketVersion = (packets) => {
 };
 
 const part1 = (input) => {
-  let binaryString = "";
-
-  for (let char of input.trim()) {
-    binaryString += hexToBin(char);
-  }
+  const binaryString = input
+    .trim()
+    .split("")
+    .map((x) => hexToBin(x))
+    .join("");
 
   const { packets } = processBitStream(binaryString);
 
-  const totalPacketVersions = sumPacketVersion(packets);
-
-  return totalPacketVersions;
+  return sumPacketVersion(packets);
 };
 
 const part2 = (input) => {
-  let binaryString = "";
-
-  for (let char of input.trim()) {
-    binaryString += hexToBin(char);
-  }
+  const binaryString = input
+    .trim()
+    .split("")
+    .map((x) => hexToBin(x))
+    .join("");
 
   const { packets } = processBitStream(binaryString);
 
-  const result = processPackets(packets);
-
-  return result;
+  return processPackets(packets);
 };
 
 export { part1, part2 };
