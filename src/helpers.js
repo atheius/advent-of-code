@@ -17,6 +17,10 @@ const min = (x) => Math.min(...x);
 
 const max = (x) => Math.max(...x);
 
+const sortAscending = (items) => items.sort((a, b) => a - b);
+
+const sortDescending = (items) => items.sort((a, b) => b - a);
+
 const symmetricDifference = (a, b) =>
   a.filter((x) => !b.includes(x)).concat(b.filter((x) => !a.includes(x)));
 
@@ -35,6 +39,8 @@ export {
   product,
   min,
   max,
+  sortAscending,
+  sortDescending,
   difference,
   symmetricDifference,
   transpose,
