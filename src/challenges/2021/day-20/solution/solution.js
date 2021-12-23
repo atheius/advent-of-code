@@ -15,62 +15,32 @@ const parseInput = (input) => {
 
 const getPixelValue = (x, y, map, enhancementAlgorithm) => {
   const pixels = [];
-  const maxY = map.length - 1;
-  const maxX = map[0].length - 1;
 
-  // top left
-  if (y - 1 >= 0 && y <= maxY && x - 1 >= 0 && x <= maxX) {
-    pixels.push(map[y - 1][x - 1]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // top middle
-  if (y - 1 >= 0 && y <= maxY && x >= 0 && x <= maxX) {
-    pixels.push(map[y - 1][x]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // top right
-  if (y - 1 >= 0 && y <= maxY && x >= 0 && x + 1 <= maxX) {
-    pixels.push(map[y - 1][x + 1]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // left
-  if (y >= 0 && y <= maxY && x - 1 >= 0 && x <= maxX) {
-    pixels.push(map[y][x - 1]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // middle
-  if (y >= 0 && y <= maxY && x >= 0 && x <= maxX) {
-    pixels.push(map[y][x]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // right
-  if (y >= 0 && y <= maxY && x >= 0 && x + 1 <= maxX) {
-    pixels.push(map[y][x + 1]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // bottom left
-  if (y >= 0 && y + 1 <= maxY && x - 1 >= 0 && x <= maxX) {
-    pixels.push(map[y + 1][x - 1]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // bottom middle
-  if (y >= 0 && y + 1 <= maxY && x >= 0 && x <= maxX) {
-    pixels.push(map[y + 1][x]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
-  }
-  // bottom right
-  if (y >= 0 && y + 1 <= maxY && x >= 0 && x + 1 <= maxX) {
-    pixels.push(map[y + 1][x + 1]);
-  } else {
-    pixels.push(enhancementAlgorithm[0]);
+  const points = [
+    [y - 1, x - 1],
+    [y - 1, x],
+    [y - 1, x + 1],
+    [y, x - 1],
+    [y, x],
+    [y, x + 1],
+    [y + 1, x - 1],
+    [y + 1, x],
+    [y + 1, x + 1],
+  ];
+
+  for (let point of points) {
+    if (
+      y >= 0 &&
+      y <= map.length - 1 &&
+      x >= 0 &&
+      x <= map[0].length - 1 &&
+      typeof map[point[0]] !== "undefined" &&
+      typeof map[point[0]][point[1]] !== "undefined"
+    ) {
+      pixels.push(map[point[0]][point[1]]);
+    } else {
+      pixels.push(enhancementAlgorithm[0]);
+    }
   }
 
   return enhancementAlgorithm[binToDec(pixels.join(""))];
@@ -90,20 +60,13 @@ const padImage = (inputImage, padding = 10) => {
   return paddedImage;
 };
 
-const part1 = (input) => {
-  const { enhancementAlgorithm, inputImage } = parseInput(input);
-
-  // Pad the first image with enough 0s so we account for the edges
-  const paddedInputImage = padImage(inputImage, 10);
-
+const enhanceImage = (inputImage, enhancementAlgorithm, num) => {
   // Assume the image is square
-  const height = paddedInputImage.length;
+  const height = inputImage.length;
   const width = height;
-
-  const images = [paddedInputImage];
-
-  // Run the enhancement twice
-  for (let z = 0; z < 2; z += 1) {
+  const images = [inputImage];
+  // Run the enhancement
+  for (let z = 0; z < num; z += 1) {
     // Initialise array for the next image
     let nextImage = Array(height)
       .fill()
@@ -115,16 +78,28 @@ const part1 = (input) => {
     }
     images.push(nextImage);
   }
+  return images[images.length - 1];
+};
 
-  const litPixels = images[images.length - 1].reduce((acc, row, idx) => {
-    // ignore first and last 2 rows
-    if (idx > 2 && idx !== images[images.length - 1].length - 2) {
-      return sum([acc, ...row.slice(2, row.length - 3)]);
+const getLitPixels = (image, padding) =>
+  image.reduce((acc, row, idx) => {
+    // Ignore some of the border padding noise
+    if (idx > padding / 2 - 1 && idx < image.length - padding / 2) {
+      return sum([acc, ...row.slice(2, row.length - 2)]);
     }
     return acc;
   }, 0);
 
-  return litPixels;
+const part1 = (input) => {
+  const { enhancementAlgorithm, inputImage } = parseInput(input);
+
+  // Pad the first image with enough 0s so we account for the edges
+  const padding = 5;
+  const paddedInputImage = padImage(inputImage, padding);
+
+  // Run enhancement twice
+  const enhancedImage = enhanceImage(paddedInputImage, enhancementAlgorithm, 2);
+  return getLitPixels(enhancedImage, 2);
 };
 
 const part2 = (input) => {
@@ -134,38 +109,14 @@ const part2 = (input) => {
   const padding = 100;
   const paddedInputImage = padImage(inputImage, padding);
 
-  // Assume the image is square
-  const height = paddedInputImage.length;
-  const width = height;
+  // Run enhancement 50 times
+  const enhancedImage = enhanceImage(
+    paddedInputImage,
+    enhancementAlgorithm,
+    50
+  );
 
-  const images = [paddedInputImage];
-
-  // Run the enhancement 50 times
-  for (let z = 0; z < 50; z += 1) {
-    // Initialise array for the next image
-    let nextImage = Array(height)
-      .fill()
-      .map(() => Array(width).fill(0));
-    for (let y = 0; y < height; y += 1) {
-      for (let x = 0; x < width; x += 1) {
-        nextImage[y][x] = getPixelValue(x, y, images[z], enhancementAlgorithm);
-      }
-    }
-    images.push(nextImage);
-  }
-
-  const litPixels = images[images.length - 1].reduce((acc, row, idx) => {
-    // Ignore some the border padding noise
-    if (
-      idx > padding / 2 - 1 &&
-      idx < images[images.length - 1].length - padding / 2
-    ) {
-      return sum([acc, ...row.slice(10, row.length - 10)]);
-    }
-    return acc;
-  }, 0);
-
-  return litPixels;
+  return getLitPixels(enhancedImage, padding);
 };
 
 export { part1, part2 };
