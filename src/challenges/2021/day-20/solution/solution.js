@@ -1,6 +1,4 @@
 import { readLines, sum } from "../../../../helpers.js";
-import chalk from "chalk";
-import * as fs from "fs";
 
 const binToDec = (bin) => parseInt(bin, 2);
 
@@ -78,24 +76,6 @@ const getPixelValue = (x, y, map, enhancementAlgorithm) => {
   return enhancementAlgorithm[binToDec(pixels.join(""))];
 };
 
-const printImage = (image, padding = 0) => {
-  for (let y = 0 - padding; y < image.length + padding; y += 1) {
-    let rowString = "";
-    if (y < 0 || y > image.length - 1) {
-      rowString = rowString
-        .padStart(image.length + padding, "-")
-        .padEnd(image.length + 2 * padding, "-");
-    } else {
-      rowString = image[y].join("").replaceAll("0", ".").replaceAll("1", "#");
-      rowString = rowString
-        .padStart(image.length + padding, "-")
-        .padEnd(image.length + 2 * padding, "-");
-    }
-    console.log(chalk.greenBright(rowString));
-  }
-  fs.appendFileSync("./output-image.txt", "\n\n\n");
-};
-
 const padImage = (inputImage, padding = 10) => {
   const paddedImage = Array(inputImage.length + padding * 2)
     .fill()
@@ -144,11 +124,6 @@ const part1 = (input) => {
     return acc;
   }, 0);
 
-  images.forEach((img) => {
-    printImage(img);
-    console.log("\n------\n");
-  });
-
   return litPixels;
 };
 
@@ -182,7 +157,7 @@ const part2 = (input) => {
   const litPixels = images[images.length - 1].reduce((acc, row, idx) => {
     // Ignore some the border padding noise
     if (
-      idx > padding / 2 &&
+      idx > padding / 2 - 1 &&
       idx < images[images.length - 1].length - padding / 2
     ) {
       return sum([acc, ...row.slice(10, row.length - 10)]);
