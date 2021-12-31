@@ -30,6 +30,9 @@ const transpose = (x) => x[0].map((_, i) => x.map((row) => row[i]));
 
 const union = (a, b) => [...new Set([...a, ...b])];
 
+const cartesian = (...a) =>
+  a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
+
 export {
   readLines,
   readLinesOfNumbers,
@@ -45,4 +48,5 @@ export {
   symmetricDifference,
   transpose,
   union,
+  cartesian,
 };
