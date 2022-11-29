@@ -8,21 +8,23 @@
     "aoc": "bin/aoc.js"
   },
   "scripts": {
-    "test": "c8 tap ./src/challenges/**/*.test.js --no-coverage",
+    "test": "tap ./src/challenges/**/*.test.js --no-cov",
+    "test:watch": "tap ./src/challenges/**/*.test.js --watch",
+    "test:coverage": "c8 tap ./src/challenges/**/*.test.js --no-cov",
     "benchmark": "node ./src/benchmark.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "arg": "^5.0.1",
-    "chalk": "^5.0.0",
-    "dotenv": "^10.0.0",
-    "jsdom": "^19.0.0",
-    "node-fetch": "^3.1.0",
+    "arg": "^5.0.2",
+    "chalk": "^5.1.2",
+    "dotenv": "^16.0.3",
+    "jsdom": "^20.0.3",
+    "node-fetch": "^3.3.0",
     "turndown": "^7.1.1"
   },
   "devDependencies": {
-    "c8": "^7.10.0",
-    "tap": "^15.1.5"
+    "c8": "^7.12.0",
+    "tap": "^16.3.2"
   }
 }
