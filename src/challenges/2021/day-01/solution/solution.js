@@ -15,7 +15,7 @@ const part1 = (input) => {
 };
 
 const part2 = (input) => {
-  const nums = input.split("\n").map((x) => parseInt(x.trim(), 10));
+  const nums = readLinesOfNumbers(input);
 
   let answer = 0;
   let prev = 0;
