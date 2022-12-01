@@ -27,7 +27,7 @@ aoc --init --day 1
 Run a solution:
 
 ```sh
-aoc solve --day 1 --part 1
+aoc --solve --day 1 --part 1
 ```
 
 Submit a solution:
