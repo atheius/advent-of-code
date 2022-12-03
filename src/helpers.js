@@ -1,3 +1,5 @@
+import clone from "just-clone";
+
 const readLines = (input) => input.trim().split("\n");
 
 const readLinesOfNumbers = (input) =>
@@ -41,21 +43,22 @@ const cartesian = (...a) =>
   a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
 export {
-  readLines,
-  readLinesOfNumbers,
-  readLinesOfDigits,
-  readCommaSeperatedNumbers,
+  cartesian,
   chunk,
-  sum,
-  product,
-  min,
-  max,
-  sortAscending,
-  sortDescending,
+  clone,
   difference,
   intersect,
+  max,
+  min,
+  product,
+  readCommaSeperatedNumbers,
+  readLines,
+  readLinesOfDigits,
+  readLinesOfNumbers,
+  sortAscending,
+  sortDescending,
+  sum,
   symmetricDifference,
   transpose,
   union,
-  cartesian,
 };
