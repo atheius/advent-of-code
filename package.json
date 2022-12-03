@@ -10,7 +10,11 @@
       "--no-warnings",
       "--experimental-loader",
       "@istanbuljs/esm-loader-hook"
-    ]
+    ],
+    "branches": 85,
+    "lines": 85,
+    "functions": 85,
+    "statements": 85
   },
   "bin": {
     "aoc": "bin/aoc.js"
