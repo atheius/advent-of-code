@@ -42,7 +42,14 @@ const union = (a, b) => [...new Set([...a, ...b])];
 const cartesian = (...a) =>
   a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
+// Returns a new list, composed of n-tuples of consecutive elements (sliding window)
+const aperture = (size, arr) =>
+  arr.flatMap((_, i) =>
+    i <= arr.length - size ? [arr.slice(i, i + size)] : []
+  );
+
 export {
+  aperture,
   cartesian,
   chunk,
   clone,
