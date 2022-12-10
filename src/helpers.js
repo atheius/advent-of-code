@@ -5,6 +5,11 @@ const readLines = (input) => input.trim().split("\n");
 const readLinesOfNumbers = (input) =>
   readLines(input).map((x) => parseInt(x.trim(), 10));
 
+const readLinesOfInstructions = (input) =>
+  readLines(input)
+    .map((x) => x.split(" "))
+    .map(([x, y]) => [x, y ? Number.parseInt(y, 10) : 0]);
+
 const readLinesOfDigits = (input) =>
   readLines(input).map((x) => x.split("").map((y) => parseInt(y)));
 
@@ -61,6 +66,7 @@ export {
   readCommaSeperatedNumbers,
   readLines,
   readLinesOfDigits,
+  readLinesOfInstructions,
   readLinesOfNumbers,
   sortAscending,
   sortDescending,
