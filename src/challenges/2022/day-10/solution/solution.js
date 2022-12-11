@@ -19,7 +19,6 @@ const part1 = (input) => {
     220: 0,
   };
 
-  const keyCycles = Object.keys(signalStrength);
   let registerX = 1;
   let cycle = 0;
 
