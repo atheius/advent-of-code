@@ -40,8 +40,9 @@ const getPuzzleInput = async (year, day) => {
     if (fs.existsSync(inputFile)) {
       const existingData = fs.readFileSync(inputFile, "utf8");
       if (
-        existingData !==
-        "Please don't repeatedly request this endpoint before it unlocks!"
+        !existingData.includes(
+          "Please don't repeatedly request this endpoint before it unlocks!"
+        )
       ) {
         return existingData;
       }
