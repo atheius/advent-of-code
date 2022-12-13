@@ -1,15 +1,15 @@
 import { max } from "../../../../helpers.js";
 
-const isSorted = (packet1, packet2) => {
+const sortPackets = (packet1, packet2) => {
   if (Number.isInteger(packet1) && Number.isInteger(packet1)) {
     if (packet1 < packet2) {
-      return true;
+      return -1;
     }
     if (packet1 > packet2) {
-      return false;
+      return 1;
     }
     if (packet1 === packet2) {
-      return null;
+      return 0;
     }
   }
 
@@ -21,25 +21,25 @@ const isSorted = (packet1, packet2) => {
     packet1 = [packet1];
   }
 
-  let sorted = null;
+  let sorted = 0;
   for (let i = 0; i < max([packet1.length, packet2.length]); i++) {
     if (packet1.length - 1 < i) {
-      return true;
+      return -1;
     }
 
     if (packet2.length - 1 < i) {
-      return false;
+      return 1;
     }
 
-    sorted = isSorted(packet1[i], packet2[i]);
-    if (sorted === true) {
-      return true;
-    } else if (sorted === false) {
-      return false;
+    sorted = sortPackets(packet1[i], packet2[i]);
+    if (sorted === -1) {
+      return -1;
+    } else if (sorted === 1) {
+      return 1;
     }
   }
 
-  return null;
+  return 0;
 };
 
 const part1 = (input) => {
@@ -51,7 +51,7 @@ const part1 = (input) => {
   let sumCorrectIndexes = 0;
   let index = 1;
   for (const [packet1, packet2] of packets) {
-    if (isSorted(packet1, packet2)) {
+    if (sortPackets(packet1, packet2) === -1) {
       sumCorrectIndexes = sumCorrectIndexes + index;
     }
     index += 1;
@@ -70,17 +70,9 @@ const part2 = (input) => {
   packets.push([[2]]);
   packets.push([[6]]);
 
-  let sortedPackets = packets.sort((a, b) => {
-    const sorted = isSorted(a, b);
-    if (sorted === true) {
-      return -1;
-    } else if (sorted === false) {
-      return 1;
-    }
-    return 0;
-  });
-
-  sortedPackets = sortedPackets.map((x) => JSON.stringify(x));
+  const sortedPackets = packets
+    .sort((a, b) => sortPackets(a, b))
+    .map((x) => JSON.stringify(x));
 
   return (
     (sortedPackets.indexOf("[[2]]") + 1) * (sortedPackets.indexOf("[[6]]") + 1)
