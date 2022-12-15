@@ -22,6 +22,13 @@ const readLinesOfDigits = (input) =>
 const readCommaSeperatedNumbers = (input) =>
   input.split(",").map((x) => parseInt(x, 10));
 
+const readLinesContainingNumbers = (input) => {
+  return readLines(input).map((x) => {
+    const matches = x.matchAll(/(-?\d+)/g);
+    return [...matches].map((m) => Number.parseInt(m[1], 10));
+  });
+};
+
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
     arr.slice(i * size, i * size + size)
@@ -71,6 +78,7 @@ export {
   product,
   readCommaSeperatedNumbers,
   readLines,
+  readLinesContainingNumbers,
   readLinesOfCharacters,
   readLinesOfDigits,
   readLinesOfInstructions,
