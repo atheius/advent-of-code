@@ -306,7 +306,7 @@ const part2 = (input) => {
     nextStep: nextSteps,
   });
 
-  console.log(path);
+  // console.log(path);
 
   return maxFlow;
 };
