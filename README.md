@@ -525,6 +525,7 @@ TODO
 [Part 1 and 2](./src/challenges/2022/day-09/solution/solution.js)
 
 </td>
+
 </tr>
 <tr>
 <td>10</td>
@@ -536,6 +537,126 @@ TODO
 <td>
 
 [Part 1 and 2](./src/challenges/2022/day-10/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>11</td>
+<td>
+
+[Monkey in the Middle](./src/challenges/2022/day-11/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-11/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>12</td>
+<td>
+
+[Hill Climbing Algorithm](./src/challenges/2022/day-12/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-12/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>13</td>
+<td>
+
+[Distress Signal](./src/challenges/2022/day-13/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-13/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>14</td>
+<td>
+
+[Regolith Reservoir](./src/challenges/2022/day-14/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-14/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>15</td>
+<td>
+
+[Beacon Exclusion Zone](./src/challenges/2022/day-15/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-15/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>16</td>
+<td>
+
+[Proboscidea Volcanium](./src/challenges/2022/day-16/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-16/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>17</td>
+<td>
+
+[Pyroclastic Flow](./src/challenges/2022/day-17/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-17/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>18</td>
+<td>
+
+[Boiling Boulders](./src/challenges/2022/day-18/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-18/solution/solution.js)
 
 </td>
 </tr>
