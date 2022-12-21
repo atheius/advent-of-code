@@ -13,11 +13,12 @@ const input = fs
   .toString();
 
 test("part 1", (t) => {
-  t.equal(part1(input), 9);
+  t.equal(part1(input), 33);
   t.end();
 });
 
 test("part 2", (t) => {
-  t.equal(part2(input), null);
+  // Takes too long to test!
+  // t.equal(part2(input), 3472);
   t.end();
 });

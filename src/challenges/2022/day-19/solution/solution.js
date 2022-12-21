@@ -1,4 +1,4 @@
-import { max, readLines, sum } from "../../../../helpers.js";
+import { max, product, readLines, sum } from "../../../../helpers.js";
 
 const pattern1 = /Each (\w+) robot costs (\d.*) (\w+)/;
 const pattern2 = /Each (\w+) robot costs (\d.*) (\w+) and (\d.*) (\w+)/;
@@ -78,185 +78,157 @@ const calculateBuildTime = (robots, materials, requirements) => {
   return waitTime + 1;
 };
 
-const checkRequiredMaterials = (materials, requirements) => {
-  for (const [type, numRequired] of Object.entries(requirements)) {
-    console.log("checking ", type, " num required", numRequired);
-    if (materials[type] <= numRequired) {
-      console.log("not enough");
-      return false;
+const reduceMaterialsByRobotCost = (materials, robot) => {
+  const nextMaterials = { ...materials };
+  for (const material of Object.keys(materials)) {
+    if (robot[material]) {
+      nextMaterials[material] = nextMaterials[material] - robot[material];
     }
   }
-  return true;
+  return nextMaterials;
+};
+
+// Return the max geodes of all possible states
+// I could probably make it faster by being more greedy - build geode robots as soon as possible?)
+const runSearch = (initState, blueprint, robotLimits) => {
+  let bestGeodeNum = 0;
+  const queue = [initState];
+  let newStates = 0;
+
+  while (queue.length) {
+    const currentState = queue.pop();
+
+    for (const nextRobot of ["ore", "clay", "obsidian", "geode"]) {
+      if (
+        canBuild(currentState.robots, blueprint[nextRobot]) &&
+        currentState.robots[nextRobot] <= robotLimits[nextRobot]
+      ) {
+        const requiredBuildTime = calculateBuildTime(
+          currentState.robots,
+          currentState.materials,
+          blueprint[nextRobot]
+        );
+
+        const remainingTime = currentState.time - max([1, requiredBuildTime]);
+
+        if (remainingTime <= 0) {
+          const finalState = {
+            ...currentState,
+            time: 0,
+            materials: calculateNextMaterials(
+              currentState.robots,
+              currentState.materials,
+              currentState.time
+            ),
+          };
+
+          if (finalState.materials.geode > bestGeodeNum) {
+            bestGeodeNum = finalState.materials.geode;
+          }
+        } else {
+          const nextState = {
+            time: remainingTime,
+            robots: {
+              ...currentState.robots,
+              [nextRobot]: currentState.robots[nextRobot] + 1,
+            },
+            materials: reduceMaterialsByRobotCost(
+              calculateNextMaterials(
+                currentState.robots,
+                currentState.materials,
+                requiredBuildTime
+              ),
+              blueprint[nextRobot]
+            ),
+          };
+
+          newStates += 1;
+          queue.push(nextState);
+        }
+      }
+    }
+  }
+
+  return bestGeodeNum;
 };
 
 const part1 = (input) => {
   const blueprints = getBlueprints(input);
 
-  const blueprint = blueprints[0];
+  const qualityLevels = [];
 
-  console.dir(blueprint, { depth: null });
-
-  // Each robot can collect 1 of its resource type per minute
-
-  // Find all possible moves
-  // Make it greedy - as soon as we can get a geode cracking robot then get one
-
-  const initState = {
-    time: 24,
-    materials: {
-      ore: 0,
-      clay: 0,
-      obsidian: 0,
-      geode: 0,
-    },
-    robots: {
-      ore: 1,
-      clay: 0,
-      obsidian: 0,
-      geode: 0,
-    },
+  // Set some reasonable limits to reduce the numebr of paths...
+  const robotLimits = {
+    ore: 3,
+    clay: 9,
+    obsidian: 9,
+    geode: Infinity,
   };
 
-  const queue = [initState];
+  // Find all possible moves (could be faster if made greedy - build geode robots as soon as possible?)
+  for (const [idx, blueprint] of blueprints.entries()) {
+    const initState = {
+      time: 24,
+      materials: {
+        ore: 0,
+        clay: 0,
+        obsidian: 0,
+        geode: 0,
+      },
+      robots: {
+        ore: 1,
+        clay: 0,
+        obsidian: 0,
+        geode: 0,
+      },
+      lastStates: [],
+    };
 
-  let buildStrategy = [
-    "geode",
-    "geode",
-    "obsidian",
-    "clay",
-    "obsidian",
-    "clay",
-    "clay",
-    "clay",
-  ];
+    const bestGeodeNum = runSearch(initState, blueprint, robotLimits);
 
-  while (queue.length) {
-    const currentState = queue.pop();
-
-    console.log("===== NEXT STATE ======");
-    console.log(currentState);
-
-    if (currentState.time > 0) {
-      let remainingTime;
-      let nextRobots;
-      let nextMaterials;
-
-      let buildType;
-      let requiredBuildTime;
-
-      const buildStrategyNext = buildStrategy.pop();
-
-      console.log(buildStrategyNext);
-
-      if (
-        canBuild(currentState.robots, blueprint.ore) &&
-        buildStrategyNext === "ore"
-      ) {
-        // console.log("can build ore");
-        buildType = "ore";
-        requiredBuildTime = calculateBuildTime(
-          currentState.robots,
-          currentState.materials,
-          blueprint.ore
-        );
-        // console.log("required build time: ", requiredBuildTime);
-      } else if (
-        canBuild(currentState.robots, blueprint.clay) &&
-        buildStrategyNext === "clay"
-      ) {
-        // console.log("can build clay");
-        buildType = "clay";
-        requiredBuildTime = calculateBuildTime(
-          currentState.robots,
-          currentState.materials,
-          blueprint.clay
-        );
-        // console.log("required build time: ", requiredBuildTime);
-      } else if (
-        canBuild(currentState.robots, blueprint.obsidian) &&
-        buildStrategyNext === "obsidian"
-      ) {
-        // console.log("can build obsidian");
-        buildType = "obsidian";
-        requiredBuildTime = calculateBuildTime(
-          currentState.robots,
-          currentState.materials,
-          blueprint.obsidian
-        );
-        // console.log("required build time: ", requiredBuildTime);
-      } else if (
-        canBuild(currentState.robots, blueprint.geode) &&
-        buildStrategyNext === "geode"
-      ) {
-        // console.log("can build geode");
-        buildType = "geode";
-        requiredBuildTime = calculateBuildTime(
-          currentState.robots,
-          currentState.materials,
-          blueprint.geode
-        );
-        // console.log("required build time: ", requiredBuildTime);
-      }
-
-      remainingTime = currentState.time - max([1, requiredBuildTime]);
-
-      console.log("BUILD ROBOT: ", buildType);
-      console.log("BUILD TIME: ", max([1, requiredBuildTime]));
-
-      if (!buildType || remainingTime <= 0) {
-        console.log("REMAINING TIME: ", currentState.time);
-        // Calculate final materials
-        nextMaterials = calculateNextMaterials(
-          currentState.robots,
-          currentState.materials,
-          currentState.time
-        );
-
-        console.log("FINAL STATE", {
-          ...currentState,
-          time: 0,
-          materials: nextMaterials,
-        });
-        continue;
-      }
-
-      console.log("REMAINING TIME: ", remainingTime);
-
-      // Increase robots
-      nextRobots = {
-        ...currentState.robots,
-        [buildType]: currentState.robots[buildType] + 1,
-      };
-
-      // Decrease materials
-      for (const [material, _] of Object.entries(currentState.materials)) {
-        if (blueprint[buildType][material]) {
-          currentState.materials[material] =
-            currentState.materials[material] - blueprint[buildType][material];
-        }
-      }
-
-      nextMaterials = calculateNextMaterials(
-        currentState.robots,
-        currentState.materials,
-        requiredBuildTime
-      );
-
-      const nextState = {
-        time: remainingTime,
-        robots: nextRobots,
-        materials: nextMaterials,
-      };
-
-      queue.push(nextState);
-    }
+    qualityLevels.push(bestGeodeNum * (idx + 1));
   }
 
-  return null;
+  return sum(qualityLevels);
 };
 
 const part2 = (input) => {
-  return null;
+  const blueprints = getBlueprints(input);
+
+  const bestGeodeNums = [];
+
+  const robotLimits = {
+    ore: 3,
+    clay: 9,
+    obsidian: 9,
+    geode: Infinity,
+  };
+
+  // Now we only need to check the first 3 blueprints...
+  for (const blueprint of blueprints.slice(0, 3)) {
+    const initState = {
+      time: 32,
+      materials: {
+        ore: 0,
+        clay: 0,
+        obsidian: 0,
+        geode: 0,
+      },
+      robots: {
+        ore: 1,
+        clay: 0,
+        obsidian: 0,
+        geode: 0,
+      },
+      lastStates: [],
+    };
+
+    const bestGeodeNum = runSearch(initState, blueprint, robotLimits);
+
+    bestGeodeNums.push(bestGeodeNum);
+  }
+
+  return product(bestGeodeNums);
 };
 
 export { part1, part2 };
