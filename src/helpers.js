@@ -93,9 +93,17 @@ const manhattanDistance = ([x1, y1], [x2, y2]) =>
 const coordinateInList = (coord, listOfCoords) =>
   listOfCoords.filter((x) => x[0] === coord[0] && x[1] === coord[1]).length;
 
+// This function allows negative mod
+const mod = (n, m) => ((n % m) + m) % m;
+
+const createGrid = (height, width, char = ".") =>
+  Array(height)
+    .fill()
+    .map(() => Array(width).fill(char));
+
 const printGrid = (grid) => {
-  for (let row = 0; row < grid.length; row++) {
-    console.log("| " + grid[row].join("") + " |");
+  for (const row of grid) {
+    console.log("| " + row.join("") + " |");
   }
 };
 
@@ -105,12 +113,14 @@ export {
   chunk,
   clone,
   coordinateInList,
+  createGrid,
   difference,
   getSubstringLocations,
   intersect,
   manhattanDistance,
   max,
   min,
+  mod,
   printGrid,
   product,
   readCommaSeperatedNumbers,
