@@ -1,4 +1,4 @@
-import { max, min, readLines } from "../../../../helpers.js";
+import { powerset, readLines, hasCommonElement } from "../../../../helpers.js";
 
 const parseInput = (input) =>
   readLines(input)
@@ -173,118 +173,6 @@ const findMaxFlow = (move, maxFlow = 0, path = []) => {
   return { maxFlow, path };
 };
 
-const PREVIOUSLY_CHECKED = {};
-const BEST_SO_FAR_FLOW = {
-  1: 0,
-  2: 0,
-  3: 0,
-  4: 0,
-  5: 0,
-  6: 0,
-  7: 0,
-  8: 0,
-  9: 0,
-  10: 0,
-};
-const TOTAL_CHECKS = 0;
-
-// This function is a mess and doesn't work (brute force approach)...
-const nextStepWithElephant = (
-  source,
-  elephantSource,
-  shortestPathMap,
-  flowRateMap,
-  valves,
-  currentFlow,
-  remainingTime,
-  remainingTimeElephant,
-  depth = 1
-) => {
-  // console.log(source, elephantSource, remainingTime, remainingTimeElephant);
-
-  if (
-    PREVIOUSLY_CHECKED[
-      `${currentFlow},${source},${elephantSource},${remainingTime},${remainingTimeElephant}`
-    ] ||
-    PREVIOUSLY_CHECKED[
-      `${currentFlow},${elephantSource},${source},${remainingTimeElephant},${remainingTime}`
-    ]
-  ) {
-    return PREVIOUSLY_CHECKED[
-      `${currentFlow},${source},${elephantSource},${remainingTime},${remainingTimeElephant}`
-    ];
-  }
-
-  const nextMoves = {};
-  for (let nextValve of valves) {
-    const remainingValves = valves.filter((valve) => valve !== nextValve);
-    const pathLength = shortestPathMap[`${source}${nextValve}`];
-    const nextRemainingTime = remainingTime - pathLength - 1;
-    const totalFlow =
-      currentFlow + flowRateMap[nextValve] * (remainingTime - pathLength - 1);
-
-    for (let nextElephantValve of remainingValves) {
-      const nextRemainingValvesWithElephant = remainingValves.filter(
-        (valve) => valve !== nextElephantValve
-      );
-      const elephantPathLength =
-        shortestPathMap[`${elephantSource}${nextElephantValve}`];
-      const nextRemainingTimeElephant =
-        remainingTimeElephant - elephantPathLength - 1;
-      const totalFlowWithElephant =
-        totalFlow +
-        flowRateMap[nextElephantValve] *
-          (remainingTimeElephant - elephantPathLength - 1);
-
-      if (totalFlowWithElephant >= BEST_SO_FAR_FLOW[depth]) {
-        BEST_SO_FAR_FLOW[depth] = totalFlowWithElephant;
-        console.log(
-          "Best so far: ",
-          BEST_SO_FAR_FLOW[depth],
-          "at depth",
-          depth
-        );
-      }
-
-      if (depth <= 1 || totalFlowWithElephant > BEST_SO_FAR_FLOW[depth - 1]) {
-        if (remainingTime > 0) {
-          const nextStepToTake = nextStepWithElephant(
-            nextValve,
-            nextElephantValve,
-            shortestPathMap,
-            flowRateMap,
-            nextRemainingValvesWithElephant,
-            totalFlowWithElephant,
-            nextRemainingTime,
-            nextRemainingTimeElephant,
-            depth + 1
-          );
-
-          PREVIOUSLY_CHECKED[
-            `${currentFlow},${source},${elephantSource},${remainingTime},${remainingTimeElephant}`
-          ] = {
-            remainingTime: nextRemainingTime,
-            remainingTimeElephant: nextRemainingTimeElephant,
-            totalFlow: totalFlowWithElephant,
-            remainingValves: nextRemainingValvesWithElephant,
-            nextStep: nextStepToTake,
-          };
-
-          nextMoves[nextValve + nextElephantValve] = {
-            remainingTime: nextRemainingTime,
-            remainingTimeElephant: nextRemainingTimeElephant,
-            totalFlow: totalFlowWithElephant,
-            remainingValves: nextRemainingValvesWithElephant,
-            nextStep: nextStepToTake,
-          };
-        }
-      }
-    }
-  }
-
-  return nextMoves;
-};
-
 const part1 = (input) => {
   const scanOutput = parseInput(input);
 
@@ -323,6 +211,67 @@ const part1 = (input) => {
   return maxFlow;
 };
 
+// Find all partitions of valves both you and the elephant can turn
+const getPartitions = (valves) => {
+  const combinations = powerset(valves);
+  const partitions = [];
+  for (let i = 0; i < combinations.length; i++) {
+    for (let j = 0; j < combinations.length; j++) {
+      if (
+        i !== j &&
+        combinations[i].length >= Math.floor(valves.length / 2) - 1 &&
+        combinations[j].length >= Math.floor(valves.length / 2) - 1 &&
+        !hasCommonElement(combinations[i], combinations[j])
+      ) {
+        partitions.push([combinations[i], combinations[j]]);
+      }
+    }
+  }
+  return partitions;
+};
+
+// Create a map of each path that can be traversed in 26 minutes and it's max flow
+const getPathFlowMap = (valves, shortestPathMap, flowRateMap) => {
+  const start = "AA";
+
+  const paths = [];
+  for (const valve of valves) {
+    const remainingTime = 26 - shortestPathMap[`${start}${valve}`] - 1;
+    paths.push([
+      [start, valve],
+      remainingTime,
+      flowRateMap[valve] * remainingTime,
+    ]);
+  }
+
+  for (const [path, pathRemainingTime, pathFlow] of paths) {
+    const remainingValves = valves.filter((x) => !path.includes(x));
+    for (const nextValve of remainingValves) {
+      const remainingTime =
+        pathRemainingTime -
+        shortestPathMap[`${path[path.length - 1]}${nextValve}`] -
+        1;
+      if (remainingTime > 0) {
+        paths.push([
+          [...path, nextValve],
+          remainingTime,
+          pathFlow + flowRateMap[nextValve] * remainingTime,
+        ]);
+      }
+    }
+  }
+
+  const pathFlowMap = {};
+  for (const [path, _, flow] of paths) {
+    const ascendingPath = path.sort();
+    if (!pathFlowMap[ascendingPath] || flow > pathFlowMap[ascendingPath]) {
+      pathFlowMap[ascendingPath] = flow;
+    }
+  }
+
+  return pathFlowMap;
+};
+
 const part2 = (input) => {
   const scanOutput = parseInput(input);
 
@@ -342,39 +291,27 @@ const part2 = (input) => {
     ...nonZeroValves,
   ]);
 
-  // Example solution...
-  // JJ ((26-3) * 21 = 483) | DD ((26-2) * 20 = 480)
-  // BB ((23-4) * 13 = 247) | HH ((24-5) * 22 = 418)
-  // CC ((19-2) * 2 = 34)   | EE ((19-4) * 3 = 45)
-  // Answer: 1707
-
-  // Create a map of all possible moves
-  const nextSteps = nextStepWithElephant(
-    "AA", // Start from AA
-    "AA", // Elephant start from AA
-    shortestPathMap,
-    flowRateMap,
+  // Create a map of all possible paths to maximum flow rate
+  const pathFlowMap = getPathFlowMap(
     nonZeroValves,
-    0,
-    26,
-    26
+    shortestPathMap,
+    flowRateMap
   );
 
-  // console.log(
-  //   nextSteps["EATH"].nextStep["QNLR"].nextStep["GWKB"].nextStep["SANA"]
-  //     .nextStep["FIXX"].nextStep["ATUD"].nextStep["TOYD"]
-  // );
+  // Get all possible partitions of you and elephant
+  const partitions = getPartitions(nonZeroValves);
 
-  // Find the max flow rate
-  const { maxFlow, path } = findMaxFlow({
-    totalFlow: 0,
-    nextStep: nextSteps,
-  });
+  // For each partition get the max flow
+  let max = 0;
+  for (const partition of partitions) {
+    const a = pathFlowMap[["AA", ...partition[0].sort()]];
+    const b = pathFlowMap[["AA", ...partition[1].sort()]];
+    if (a + b > max) {
+      max = a + b;
+    }
+  }
 
-  console.log(path);
-
-  // 2351
-  return maxFlow;
+  return max;
 };
 
 export { part1, part2 };

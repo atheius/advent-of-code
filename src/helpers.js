@@ -65,6 +65,14 @@ const rotate = (arr, n) => {
   return arr.slice(n, arr.length).concat(arr.slice(0, n));
 };
 
+const hasCommonElement = (a, b) => a.some((x) => b.includes(x));
+
+const powerset = (arr) =>
+  arr.reduce(
+    (subsets, value) => subsets.concat(subsets.map((set) => [value, ...set])),
+    [[]]
+  );
+
 // Returns a new list, composed of n-tuples of consecutive elements (sliding window)
 const aperture = (size, arr) =>
   arr.flatMap((_, i) =>
@@ -116,11 +124,13 @@ export {
   createGrid,
   difference,
   getSubstringLocations,
+  hasCommonElement,
   intersect,
   manhattanDistance,
   max,
   min,
   mod,
+  powerset,
   printGrid,
   product,
   readCommaSeperatedNumbers,
