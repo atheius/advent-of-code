@@ -1,27 +1,21 @@
-import * as path from "path";
-import * as fs from "fs";
+import test from "node:test";
+import assert from "assert";
+import { join } from "path";
+import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { test } from "tap";
+
 import { part1, part2 } from "./solution.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const input = fs
-  .readFileSync(path.join(__dirname, "../example.txt"))
-  .toString();
+const input = readFileSync(join(__dirname, "../example.txt"), "utf8");
+const input2 = readFileSync(join(__dirname, "../example2.txt"), "utf8");
 
-const input2 = fs
-  .readFileSync(path.join(__dirname, "../example2.txt"))
-  .toString();
-
-test("part 1", (t) => {
-  t.equal(part1(input), 142);
-  t.end();
+test("2023 | day 01 | part 1", () => {
+  assert.equal(part1(input), 142);
 });
 
-test("part 2", (t) => {
-  t.equal(part2(input2), 363);
-  t.end();
+test("2023 | day 01 | part 2", () => {
+  assert.equal(part2(input2), 363);
 });
