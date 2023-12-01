@@ -1,41 +1,29 @@
-import * as path from "path";
-import * as fs from "fs";
+import test from "node:test";
+import assert from "assert";
+import { join } from "path";
+import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { test } from "tap";
+
 import { part1, part2 } from "./solution.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const input = fs
-  .readFileSync(path.join(__dirname, "../example.txt"))
-  .toString();
+const input = readFileSync(join(__dirname, "../example.txt"), "utf8");
+const input2 = readFileSync(join(__dirname, "../example2.txt"), "utf8");
+const input3 = readFileSync(join(__dirname, "../example3.txt"), "utf8");
+const input4 = readFileSync(join(__dirname, "../example4.txt"), "utf8");
 
-const input2 = fs
-  .readFileSync(path.join(__dirname, "../example2.txt"))
-  .toString();
-
-const input3 = fs
-  .readFileSync(path.join(__dirname, "../example3.txt"))
-  .toString();
-
-const input4 = fs
-  .readFileSync(path.join(__dirname, "../example4.txt"))
-  .toString();
-
-test("part 1", (t) => {
-  t.equal(part1(input), 5);
-  t.equal(part1(input2), 6);
-  t.equal(part1(input3), 10);
-  t.equal(part1(input4), 11);
-  t.end();
+test("2022 | day 06 | part 1", () => {
+  assert.equal(part1(input), 5);
+  assert.equal(part1(input2), 6);
+  assert.equal(part1(input3), 10);
+  assert.equal(part1(input4), 11);
 });
 
-test("part 2", (t) => {
-  t.equal(part2(input), 23);
-  t.equal(part2(input2), 23);
-  t.equal(part2(input3), 29);
-  t.equal(part2(input4), 26);
-  t.end();
+test("2022 | day 06 | part 2", () => {
+  assert.equal(part2(input), 23);
+  assert.equal(part2(input2), 23);
+  assert.equal(part2(input3), 29);
+  assert.equal(part2(input4), 26);
 });

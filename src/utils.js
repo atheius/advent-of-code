@@ -156,6 +156,15 @@ const initDay = async (year, day) => {
         `./src/challenges/${yearString}/day-${dayString}`
       )
     );
+    const testFile = fs.readFileSync(
+      `./src/challenges/${yearString}/day-${dayString}/solution/solution.test.js`,
+      "utf8"
+    );
+    fs.writeFileSync(
+      `./src/challenges/${yearString}/day-${dayString}/solution/solution.test.js`,
+      testFile.replaceAll("_YEAR_", yearString).replaceAll("_DAY_", dayString),
+      "utf8"
+    );
   }
 
   console.log(chalk.green(`Getting question for day: ${dayString}`));

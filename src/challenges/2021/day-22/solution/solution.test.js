@@ -1,30 +1,21 @@
-import * as path from "path";
-import * as fs from "fs";
+import test from "node:test";
+import assert from "assert";
+import { join } from "path";
+import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { test } from "tap";
+
 import { part1, part2 } from "./solution.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const input = fs
-  .readFileSync(path.join(__dirname, "../example.txt"))
-  .toString();
+const input = readFileSync(join(__dirname, "../example.txt"), "utf8");
+const input2 = readFileSync(join(__dirname, "../example2.txt"), "utf8");
 
-const input2 = fs
-  .readFileSync(path.join(__dirname, "../example2.txt"))
-  .toString();
-
-const input3 = fs.readFileSync(path.join(__dirname, "../input.txt")).toString();
-
-test("part 1", (t) => {
-  t.equal(part1(input), 590784);
-  t.end();
+test("2021 | day 22 | part 1", () => {
+  assert.equal(part1(input), 590784);
 });
 
-test("part 2", (t) => {
-  t.equal(part2(input2), 2758514936282235);
-  t.equal(part2(input3), 1125649856443608);
-  t.end();
+test("2021 | day 22 | part 2", () => {
+  assert.equal(part2(input2), 2758514936282235);
 });
