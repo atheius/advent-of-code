@@ -771,12 +771,12 @@ TODO
 <td>01</td>
 <td>
 
-[Trebuchet?!](./src/challenges/2022/day-01/README.md)
+[Trebuchet?!](./src/challenges/2023/day-01/README.md)
 
 </td>
 <td>
 
-[Part 1 and 2](./src/challenges/2022/day-01/solution/solution.js)
+[Part 1 and 2](./src/challenges/2023/day-01/solution/solution.js)
 
 </td>
 
