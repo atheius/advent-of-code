@@ -21,36 +21,33 @@ const parseInput = (input) =>
       )
   );
 
-const part1 = (input) => {
-  const parsedInput = parseInput(input);
+const MAX_RED = 12;
+const MAX_GREEN = 13;
+const MAX_BLUE = 14;
 
-  const MAX_RED = 12;
-  const MAX_GREEN = 13;
-  const MAX_BLUE = 14;
+const part1 = (input) =>
+  sum(
+    parseInput(input).reduce((acc, games, idx) => {
+      const possible = games.reduce((acc, curr) => {
+        if (
+          curr.red > MAX_RED ||
+          curr.green > MAX_GREEN ||
+          curr.blue > MAX_BLUE
+        ) {
+          return false;
+        }
+        return acc;
+      }, true);
 
-  const possibleGames = parsedInput.reduce((acc, games, idx) => {
-    const possible = games.reduce((acc, curr) => {
-      if (
-        curr.red > MAX_RED ||
-        curr.green > MAX_GREEN ||
-        curr.blue > MAX_BLUE
-      ) {
-        return false;
+      if (possible) {
+        return [...acc, idx + 1];
       }
       return acc;
-    }, true);
+    }, [])
+  );
 
-    if (possible) {
-      return [...acc, idx + 1];
-    }
-    return acc;
-  }, []);
-
-  return sum(possibleGames);
-};
-
-const part2 = (input) => {
-  const totalPower = parseInput(input).reduce(
+const part2 = (input) =>
+  parseInput(input).reduce(
     (power, games) =>
       power +
       product(
@@ -71,8 +68,5 @@ const part2 = (input) => {
       ),
     0
   );
-
-  return totalPower;
-};
 
 export { part1, part2 };
