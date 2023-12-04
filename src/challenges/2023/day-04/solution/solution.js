@@ -3,19 +3,14 @@ import { intersect, readLines, sum } from "../../../../helpers.js";
 const parseInput = (input) =>
   readLines(input)
     .map((line) => line.split(":"))
-    .map(([, card]) => {
-      const [winning, numbers] = card.split("|");
-      return [
-        winning
+    .map(([, card]) =>
+      card.split("|").map((nums) =>
+        nums
           .trim()
           .split(/\s+/)
-          .map((x) => parseInt(x)),
-        numbers
-          .trim()
-          .split(/\s+/)
-          .map((x) => parseInt(x)),
-      ];
-    });
+          .map((x) => parseInt(x, 10))
+      )
+    );
 
 const intersectLength = (a, b) => intersect(new Set(a), new Set(b)).length;
 
