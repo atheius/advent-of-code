@@ -27,11 +27,11 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 
 In the above example, card 1 has five winning numbers (`41`, `48`, `83`, `86`, and `17`) and eight numbers you have (`83`, `86`, `6`, `31`, `17`, `9`, `48`, and `53`). Of the numbers you have, four of them (`48`, `83`, `17`, and `86`) are winning numbers! That means card 1 is worth `_8_` points (1 for the first match, then doubled three times for each of the three matches after the first).
 
--   Card 2 has two winning numbers (`32` and `61`), so it is worth `_2_` points.
--   Card 3 has two winning numbers (`1` and `21`), so it is worth `_2_` points.
--   Card 4 has one winning number (`84`), so it is worth `_1_` point.
--   Card 5 has no winning numbers, so it is worth no points.
--   Card 6 has no winning numbers, so it is worth no points.
+- Card 2 has two winning numbers (`32` and `61`), so it is worth `_2_` points.
+- Card 3 has two winning numbers (`1` and `21`), so it is worth `_2_` points.
+- Card 4 has one winning number (`84`), so it is worth `_1_` point.
+- Card 5 has no winning numbers, so it is worth no points.
+- Card 6 has no winning numbers, so it is worth no points.
 
 So, in this example, the Elf's pile of scratchcards is worth `_13_` points.
 
@@ -58,13 +58,13 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 ```
 
--   Card 1 has four matching numbers, so you win one copy each of the next four cards: cards 2, 3, 4, and 5.
--   Your original card 2 has two matching numbers, so you win one copy each of cards 3 and 4.
--   Your copy of card 2 also wins one copy each of cards 3 and 4.
--   Your four instances of card 3 (one original and three copies) have two matching numbers, so you win _four_ copies each of cards 4 and 5.
--   Your eight instances of card 4 (one original and seven copies) have one matching number, so you win _eight_ copies of card 5.
--   Your fourteen instances of card 5 (one original and thirteen copies) have no matching numbers and win no more cards.
--   Your one instance of card 6 (one original) has no matching numbers and wins no more cards.
+- Card 1 has four matching numbers, so you win one copy each of the next four cards: cards 2, 3, 4, and 5.
+- Your original card 2 has two matching numbers, so you win one copy each of cards 3 and 4.
+- Your copy of card 2 also wins one copy each of cards 3 and 4.
+- Your four instances of card 3 (one original and three copies) have two matching numbers, so you win _four_ copies each of cards 4 and 5.
+- Your eight instances of card 4 (one original and seven copies) have one matching number, so you win _eight_ copies of card 5.
+- Your fourteen instances of card 5 (one original and thirteen copies) have no matching numbers and win no more cards.
+- Your one instance of card 6 (one original) has no matching numbers and wins no more cards.
 
 Once all of the originals and copies have been processed, you end up with `_1_` instance of card 1, `_2_` instances of card 2, `_4_` instances of card 3, `_8_` instances of card 4, `_14_` instances of card 5, and `_1_` instance of card 6. In total, this example pile of scratchcards causes you to ultimately have `_30_` scratchcards!
 
