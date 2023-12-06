@@ -779,5 +779,76 @@ TODO
 [Part 1 and 2](./src/challenges/2023/day-01/solution/solution.js)
 
 </td>
+</tr>
+
+<tr>
+<td>02</td>
+<td>
+
+[Cube Conundrum](./src/challenges/2023/day-02/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-02/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>03</td>
+<td>
+
+[Gear Ratios](./src/challenges/2023/day-03/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-03/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>04</td>
+<td>
+
+[Scratchcards](./src/challenges/2023/day-04/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-04/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>05</td>
+<td>
+
+[If You Give A Seed A Fertilizer](./src/challenges/2023/day-05/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-05/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>06</td>
+<td>
+
+[Wait For It](./src/challenges/2023/day-06/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-06/solution/solution.js)
+
+</td>
+</tr>
 
 </table>
