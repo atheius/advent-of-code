@@ -79,6 +79,8 @@ const aperture = (size, arr) =>
     i <= arr.length - size ? [arr.slice(i, i + size)] : []
   );
 
+const zip = (a, b) => a.map((x, y) => [x, b[y]]);
+
 // Returns all indices of substring in string
 const getSubstringLocations = (searchStr, str) => {
   let searchStrLen = searchStr.length;
@@ -147,4 +149,5 @@ export {
   symmetricDifference,
   transpose,
   union,
+  zip,
 };
