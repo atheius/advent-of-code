@@ -853,16 +853,16 @@ TODO
 
 <tr>
     
-    <td>07</td>
-    <td>
-    
-    [Camel Cards](./src/challenges/2023/day-07/README.md)
-    
-    </td>
-    <td>
-    
-    [Part 1 and 2](./src/challenges/2023/day-07/solution/solution.js)
-    
-    </td>
-    </tr>
-    </table>
+<td>07</td>
+<td>
+
+[Camel Cards](./src/challenges/2023/day-07/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-07/solution/solution.js)
+
+</td>
+</tr>
+</table>

@@ -139,20 +139,20 @@ const updateReadme = (yearString, dayString, puzzleTitle) => {
     const readmeFile = fs.readFileSync("./README.md", "utf8");
     if (readmeFile.includes("<table")) {
       const newRow = `<tr>
-    ${dayString === "01" ? `<td rowspan="25">${yearString}</td>` : ""}
-    <td>${dayString}</td>
-    <td>
-    
-    [${puzzleTitle}](./src/challenges/${yearString}/day-${dayString}/README.md)
-    
-    </td>
-    <td>
-    
-    [Part 1 and 2](./src/challenges/${yearString}/day-${dayString}/solution/solution.js)
-    
-    </td>
-    </tr>
-    </table>`;
+${dayString === "01" ? `<td rowspan="25">${yearString}</td>` : ""}
+<td>${dayString}</td>
+<td>
+
+[${puzzleTitle}](./src/challenges/${yearString}/day-${dayString}/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/${yearString}/day-${dayString}/solution/solution.js)
+
+</td>
+</tr>
+</table>`;
       fs.writeFileSync("./README.md", readmeFile.replace("</table>", newRow));
     }
   }
