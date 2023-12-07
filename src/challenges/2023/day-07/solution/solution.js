@@ -29,29 +29,20 @@ const replaceAndCombine = (
   });
 };
 
-const xOfAKind = (hand, x) => {
-  const counts = {};
-  hand.forEach((card) => {
+const cardCounts = (hand) =>
+  hand.reduce((counts, card) => {
     counts[card] = (counts[card] || 0) + 1;
-  });
-  return Object.values(counts).includes(x);
-};
+    return counts;
+  }, {});
 
-const fullHouse = (hand) => {
-  const counts = {};
-  hand.forEach((card) => {
-    counts[card] = (counts[card] || 0) + 1;
-  });
-  return Object.values(counts).includes(3) && Object.values(counts).includes(2);
-};
+const xOfAKind = (hand, x) => Object.values(cardCounts(hand)).includes(x);
 
-const twoPair = (hand) => {
-  const counts = {};
-  hand.forEach((card) => {
-    counts[card] = (counts[card] || 0) + 1;
-  });
-  return Object.values(counts).filter((count) => count === 2).length === 2;
-};
+const fullHouse = (hand) =>
+  Object.values(cardCounts(hand)).includes(3) &&
+  Object.values(cardCounts(hand)).includes(2);
+
+const twoPair = (hand) =>
+  Object.values(cardCounts(hand)).filter((count) => count === 2).length === 2;
 
 const getHandValue = memoize((hand) => {
   if (xOfAKind(hand, 5)) {
@@ -75,42 +66,34 @@ const getHandValue = memoize((hand) => {
   return 1;
 });
 
-const getHandValuePart2 = memoize((hand) =>
+const getBestHandValue = memoize((hand) =>
   // Find all combinations of hand when replacing J with another card
   replaceAndCombine(
     hand,
     "J",
     cardsPart2.filter((card) => card !== "J")
+    // find the best hand of all combinations
   ).reduce((acc, next) => max([getHandValue(next), acc]), 0)
 );
 
-const handComparator = (a, b, part2 = false) => {
-  const aHandValue = part2 ? getHandValuePart2(a) : getHandValue(a);
-  const bHandValue = part2 ? getHandValuePart2(b) : getHandValue(b);
-
-  if (aHandValue < bHandValue) {
-    return -1;
-  }
-
-  if (aHandValue > bHandValue) {
-    return 1;
-  }
-
-  // Tiebreak - the first highest card in the hand wins
+const calculateTieBreak = (a, b, cards) => {
   for (let i = 0; i < a.length; i++) {
-    const valueA = part2 ? cardsPart2.indexOf(a[i]) : cards.indexOf(a[i]);
-    const valueB = part2 ? cardsPart2.indexOf(b[i]) : cards.indexOf(b[i]);
-
-    if (valueA < valueB) {
-      return 1;
-    }
-
-    if (valueA > valueB) {
-      return -1;
+    const valueA = cards.indexOf(a[i]);
+    const valueB = cards.indexOf(b[i]);
+    if (valueA !== valueB) {
+      return valueA < valueB ? 1 : -1;
     }
   }
-
   return 0;
+};
+
+const handComparator = (a, b, part2 = false) => {
+  const valueA = part2 ? getBestHandValue(a) : getHandValue(a);
+  const valueB = part2 ? getBestHandValue(b) : getHandValue(b);
+  if (valueA !== valueB) {
+    return valueA < valueB ? -1 : 1;
+  }
+  return calculateTieBreak(a, b, part2 ? cardsPart2 : cards);
 };
 
 const part1 = (input) =>
