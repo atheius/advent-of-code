@@ -117,6 +117,17 @@ const printGrid = (grid) => {
   }
 };
 
+const memoize = (fn) => {
+  const cache = {};
+  return (...args) => {
+    const stringifiedArgs = JSON.stringify(args);
+    if (!cache[stringifiedArgs]) {
+      cache[stringifiedArgs] = fn(...args);
+    }
+    return cache[stringifiedArgs];
+  };
+};
+
 export {
   aperture,
   cartesian,
@@ -150,4 +161,5 @@ export {
   transpose,
   union,
   zip,
+  memoize,
 };
