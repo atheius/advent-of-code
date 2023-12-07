@@ -96,12 +96,19 @@ const getQuestionMarkdown = async (year, day) => {
       .toString()
       .padStart(2, "0")}/README.md`;
 
-    fs.writeFileSync(
-      questionFile,
-      turndownService.turndown(
-        questionParts.reduce((all, part) => [...all, part], []).join("")
-      )
+    const turndownData = turndownService.turndown(
+      questionParts.reduce((all, part) => [...all, part], []).join("")
     );
+
+    const puzzleTitle = turndownData
+      .split("\n")[0]
+      .split(":")[1]
+      .split("-")[0]
+      .trim();
+
+    fs.writeFileSync(questionFile, turndownData);
+
+    return puzzleTitle;
   } catch (err) {
     console.error(chalk.red("Failed to get puzzle question."));
     console.error(err.message);
@@ -124,6 +131,30 @@ const copyDir = (src, dest) => {
     entry.isDirectory()
       ? copyDir(srcPath, destPath)
       : fs.copyFileSync(srcPath, destPath);
+  }
+};
+
+const updateReadme = (yearString, dayString, puzzleTitle) => {
+  if (fs.existsSync("./README.md")) {
+    const readmeFile = fs.readFileSync("./README.md", "utf8");
+    if (readmeFile.includes("<table")) {
+      const newRow = `<tr>
+    ${dayString === "01" ? `<td rowspan="25">${yearString}</td>` : ""}
+    <td>${dayString}</td>
+    <td>
+    
+    [${puzzleTitle}](./src/challenges/${yearString}/day-${dayString}/README.md)
+    
+    </td>
+    <td>
+    
+    [Part 1 and 2](./src/challenges/${yearString}/day-${dayString}/solution/solution.js)
+    
+    </td>
+    </tr>
+    </table>`;
+      fs.writeFileSync("./README.md", readmeFile.replace("</table>", newRow));
+    }
   }
 };
 
@@ -169,7 +200,9 @@ const initDay = async (year, day) => {
 
   console.log(chalk.green(`Getting question for day: ${dayString}`));
 
-  await getQuestionMarkdown(year, day);
+  const puzzleTitle = await getQuestionMarkdown(year, day);
+
+  updateReadme(yearString, dayString, puzzleTitle);
 
   console.log(
     chalk.green(`Getting puzzle input for day: ${dayString} part: 01`)
