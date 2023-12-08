@@ -65,6 +65,11 @@ const rotate = (arr, n) => {
   return arr.slice(n, arr.length).concat(arr.slice(0, n));
 };
 
+const greatestCommonDivisor = (a, b) =>
+  b === 0 ? a : greatestCommonDivisor(b, a % b);
+
+const lowestCommonMultiple = (a, b) => (a * b) / greatestCommonDivisor(a, b);
+
 const hasCommonElement = (a, b) => a.some((x) => b.includes(x));
 
 const powerset = (arr) =>
@@ -162,4 +167,6 @@ export {
   union,
   zip,
   memoize,
+  greatestCommonDivisor,
+  lowestCommonMultiple,
 };
