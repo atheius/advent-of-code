@@ -865,4 +865,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>08</td>
+<td>
+
+[Haunted Wasteland](./src/challenges/2023/day-08/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-08/solution/solution.js)
+
+</td>
+</tr>
 </table>
