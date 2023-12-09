@@ -879,4 +879,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>09</td>
+<td>
+
+[Mirage Maintenance](./src/challenges/2023/day-09/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-09/solution/solution.js)
+
+</td>
+</tr>
 </table>
