@@ -18,14 +18,13 @@ const getNextHistoryValue = (line) => {
     .reduce((nextNum, x) => x[x.length - 1] + nextNum, 0);
 };
 
-const part1 = (input) =>
-  sum(parseInput(input).map((x) => getNextHistoryValue(x)));
+const part1 = (input) => sum(parseInput(input).map(getNextHistoryValue));
 
 const part2 = (input) =>
   sum(
     parseInput(input)
       .map((x) => x.toReversed())
-      .map((x) => getNextHistoryValue(x))
+      .map(getNextHistoryValue)
   );
 
 export { part1, part2 };
