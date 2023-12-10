@@ -38,39 +38,33 @@ const isValidMove = (map, previous, current, next, direction) => {
     return false;
   }
 
-  if (nextChar === "S") {
-    return true;
-  }
-
   if (direction === "north") {
     return (
-      ["|", "L", "J", "S"].includes(currentChar) &&
+      ["S", "|", "L", "J"].includes(currentChar) &&
       ["S", "|", "7", "F"].includes(nextChar)
     );
   }
 
   if (direction === "east") {
     return (
-      ["-", "F", "L", "S"].includes(currentChar) &&
-      ["-", "J", "7"].includes(nextChar)
+      ["S", "-", "F", "L"].includes(currentChar) &&
+      ["S", "-", "J", "7"].includes(nextChar)
     );
   }
 
   if (direction === "south") {
     return (
-      ["|", "F", "7", "S"].includes(currentChar) &&
-      ["|", "L", "J"].includes(nextChar)
+      ["S", "|", "7", "F"].includes(currentChar) &&
+      ["S", "|", "L", "J"].includes(nextChar)
     );
   }
 
   if (direction === "west") {
     return (
-      ["-", "7", "J", "S"].includes(currentChar) &&
-      ["-", "L", "F"].includes(nextChar)
+      ["S", "-", "7", "J"].includes(currentChar) &&
+      ["S", "-", "L", "F"].includes(nextChar)
     );
   }
-
-  return false;
 };
 
 const getNextStep = (map, previous, current) => {
@@ -142,14 +136,15 @@ const part2 = (input) => {
       row.reduce((enclosedTiles, _, x) => {
         if (!routeIncludesPoint(route, [y, x])) {
           const walls = row
+            // Check left of current position
             .slice(0, x)
             .join("")
-            // remove anything that's not a wall
+            // Remove anything that's not a wall
             .replaceAll(".", "")
             .replaceAll("-", "")
             // Start becomes a wall
             .replaceAll("S", "|")
-            // two pipe joins become a wall
+            // Two pipe joins become a wall
             .replaceAll("L7", "|")
             .replaceAll("FJ", "|")
             .split("");
