@@ -129,7 +129,7 @@ const part2 = (input) => {
   const map = parseInput(input);
   const route = getRoute(map);
 
-  // clear the map of excess pipes and find the number of enclosed tiles
+  // Clear the map of excess pipes and find the number of enclosed tiles
   return clearMap(map, route).reduce(
     (total, row, y) =>
       total +
@@ -150,7 +150,7 @@ const part2 = (input) => {
             .split("");
 
           if (walls.length % 2 === 1) {
-            // if it's an odd number of wall then it's enclosed
+            // If it's an odd number of walls on the left, then it must be enclosed...
             enclosedTiles += 1;
           }
         }
