@@ -893,4 +893,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>10</td>
+<td>
+
+[Pipe Maze](./src/challenges/2023/day-10/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-10/solution/solution.js)
+
+</td>
+</tr>
 </table>
