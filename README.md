@@ -907,4 +907,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>11</td>
+<td>
+
+[Cosmic Expansion](./src/challenges/2023/day-11/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-11/solution/solution.js)
+
+</td>
+</tr>
 </table>
