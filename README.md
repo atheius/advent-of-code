@@ -921,4 +921,32 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>12</td>
+<td>
+
+[Hot Springs](./src/challenges/2023/day-12/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-12/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+
+<td>12</td>
+<td>
+
+[Hot Springs](./src/challenges/2023/day-12/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-12/solution/solution.js)
+
+</td>
+</tr>
 </table>
