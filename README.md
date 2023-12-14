@@ -949,4 +949,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>13</td>
+<td>
+
+[Point of Incidence](./src/challenges/2023/day-13/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-13/solution/solution.js)
+
+</td>
+</tr>
 </table>
