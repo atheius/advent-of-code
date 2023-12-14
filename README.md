@@ -963,4 +963,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>14</td>
+<td>
+
+[Parabolic Reflector Dish](./src/challenges/2023/day-14/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-14/solution/solution.js)
+
+</td>
+</tr>
 </table>

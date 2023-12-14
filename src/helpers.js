@@ -55,6 +55,12 @@ const intersect = (a, b) => [...new Set([...a].filter((i) => b.has(i)))];
 
 const transpose = (x) => x[0].map((_, i) => x.map((row) => row[i]));
 
+const rotateGridClockwise = (grid) =>
+  grid[0].map((_, index) => grid.map((row) => row[index]).reverse());
+
+const rotateGridCounterClockwise = (grid) =>
+  grid[0].map((_, index) => grid.map((row) => row[row.length - 1 - index]));
+
 const union = (a, b) => [...new Set([...a, ...b])];
 
 const cartesian = (...a) =>
@@ -164,6 +170,8 @@ export {
   sum,
   symmetricDifference,
   transpose,
+  rotateGridClockwise,
+  rotateGridCounterClockwise,
   union,
   zip,
   memoize,
