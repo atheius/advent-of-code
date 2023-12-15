@@ -977,4 +977,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>15</td>
+<td>
+
+[Lens Library](./src/challenges/2023/day-15/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-15/solution/solution.js)
+
+</td>
+</tr>
 </table>
