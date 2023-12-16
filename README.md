@@ -991,4 +991,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>16</td>
+<td>
+
+[The Floor Will Be Lava](./src/challenges/2023/day-16/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-16/solution/solution.js)
+
+</td>
+</tr>
 </table>
