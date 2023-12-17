@@ -1005,4 +1005,32 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>17</td>
+<td>
+
+[undefined](./src/challenges/2023/day-17/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-17/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+
+<td>17</td>
+<td>
+
+[Clumsy Crucible](./src/challenges/2023/day-17/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-17/solution/solution.js)
+
+</td>
+</tr>
 </table>
