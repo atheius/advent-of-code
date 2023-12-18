@@ -1,4 +1,4 @@
-import { readLines } from "../../../../helpers.js";
+import { readLines, getAreaOfPolygon } from "../../../../helpers.js";
 
 const directionMap = {
   0: "R",
@@ -52,27 +52,18 @@ const getPerimeter = (instructions) => {
   return { perimeterLength, perimeter };
 };
 
-/*
- * Calculate the area of a polygon
- * using Shoelace formula.
- * https://en.wikipedia.org/wiki/Shoelace_formula
- */
 const getArea = (perimeterCoords, perimeterLength) => {
-  let area = perimeterCoords.reduce(
-    (acc, [y, x], idx) =>
-      (acc +=
-        // Use modulo to wraparound and include the first coordinate at the end
-        x * perimeterCoords[(idx + 1) % perimeterCoords.length][0] -
-        perimeterCoords[(idx + 1) % perimeterCoords.length][1] * y),
-    0
-  );
+  // Use the Shoelace formula to calculate the area of the polygon
+  const area = getAreaOfPolygon(perimeterCoords);
 
-  // We want to include the perimeter in the area
-  area += perimeterLength;
+  // Because the polygon is on a grid and the coordinates are the middle of squares,
+  // we need to use Pick's Theorem to calculate the internal area...
+  // A = i + b/2 - 1
+  // i = A - b/2 + 1
+  const internalArea = area - perimeterLength / 2 + 1;
 
-  area = Math.abs(area) / 2 + 1;
-
-  return area;
+  // Then add the perimeter trench...
+  return internalArea + perimeterLength;
 };
 
 const part1 = (input) => {
