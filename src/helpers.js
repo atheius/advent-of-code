@@ -128,6 +128,20 @@ const printGrid = (grid) => {
   }
 };
 
+// Calculate the area of a polygon using Shoelace formula
+// https://en.wikipedia.org/wiki/Shoelace_formula
+const getAreaOfPolygon = (polygonCoordinates) =>
+  Math.abs(
+    polygonCoordinates.reduce(
+      (acc, [y, x], idx) =>
+        (acc +=
+          // Use modulo to wraparound and include the first coordinate again at the end
+          x * polygonCoordinates[(idx + 1) % polygonCoordinates.length][0] -
+          polygonCoordinates[(idx + 1) % polygonCoordinates.length][1] * y),
+      0
+    )
+  ) / 2;
+
 const memoize = (fn) => {
   const cache = {};
   return (...args) => {
@@ -177,4 +191,5 @@ export {
   memoize,
   greatestCommonDivisor,
   lowestCommonMultiple,
+  getAreaOfPolygon,
 };
