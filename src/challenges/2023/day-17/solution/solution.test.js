@@ -17,6 +17,6 @@ test("2023 | day 17 | part 1", () => {
 });
 
 test("2023 | day 17 | part 2", () => {
-  // assert.equal(part2(input), 94);
+  assert.equal(part2(input), 94);
   assert.equal(part2(input2), 71);
 });

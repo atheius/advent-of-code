@@ -10,7 +10,8 @@ const getSurroundingPoints = ([y, x]) => ({
 const inBounds = (grid, [y, x]) =>
   y >= 0 && y < grid.length && x >= 0 && x < grid[y].length;
 
-const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 2) => {
+// Very slow algorithm - needs some improvement!!
+const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 3) => {
   // End is bottom right corner
   const [endY, endX] = [grid.length - 1, grid[0].length - 1];
 
@@ -19,15 +20,13 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 2) => {
     [0, 0, "south", 0, 0, [[0, 0]]],
     [0, 0, "east", 0, 0, [[0, 0]]],
   ];
+
   const visited = new Map();
 
   let finalHeatLoss = Infinity;
   while (queue.length > 0) {
     // Sort queue by heatLoss
     queue.sort((a, b) => a[4] - b[4]);
-
-    // sort on heat loss then distance??
-    // queue.sort((a, b) => a[4] - b[4] || a[5] - b[5]);
 
     // Get the next step to check
     const [
@@ -44,11 +43,15 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 2) => {
       currentHeatLoss
     );
 
-    if (currentY === endY && currentX === endX) {
+    if (
+      currentY === endY &&
+      currentX === endX &&
+      currentNumDirection >= minConsecutive - 1
+    ) {
       if (currentHeatLoss < finalHeatLoss) {
         // Found a better path
         finalHeatLoss = currentHeatLoss;
-        console.log(finalHeatLoss, path);
+        console.log("Found a path", path);
       }
       continue;
     }
@@ -69,16 +72,41 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 2) => {
       let nextNumDirection = currentNumDirection;
       if (currentDirection === nextDirection) {
         nextNumDirection += 1;
-        if (nextNumDirection > maxConsecutive) {
+        if (nextNumDirection > maxConsecutive - 1) {
           continue;
         }
       } else {
-        if (nextNumDirection < minConsecutive) {
+        if (nextNumDirection < minConsecutive - 1) {
           // Skip if not enough consecutive
-          // console.log("not enough consecutive", path);
           continue;
         }
         nextNumDirection = 0;
+      }
+
+      // skip if require consecutive would go out of bounds
+      if (
+        nextDirection === "north" &&
+        y - (minConsecutive - nextNumDirection) < 0
+      ) {
+        continue;
+      }
+      if (
+        nextDirection === "south" &&
+        y + (minConsecutive - nextNumDirection) > grid.length
+      ) {
+        continue;
+      }
+      if (
+        nextDirection === "east" &&
+        x + (minConsecutive - nextNumDirection) > grid[y].length
+      ) {
+        continue;
+      }
+      if (
+        nextDirection === "west" &&
+        x - (minConsecutive - nextNumDirection) < 0
+      ) {
+        continue;
       }
 
       const nextHeatLoss = currentHeatLoss + grid[y][x];
