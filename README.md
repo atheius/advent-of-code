@@ -1033,4 +1033,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>18</td>
+<td>
+
+[Lavaduct Lagoon](./src/challenges/2023/day-18/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-18/solution/solution.js)
+
+</td>
+</tr>
 </table>
