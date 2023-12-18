@@ -51,7 +51,6 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 3) => {
       if (currentHeatLoss < finalHeatLoss) {
         // Found a better path
         finalHeatLoss = currentHeatLoss;
-        console.log("Found a path", path);
       }
       continue;
     }
@@ -157,14 +156,8 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 3) => {
   return finalHeatLoss;
 };
 
-const part1 = (input) => {
-  const grid = readLinesOfDigits(input);
-  return findMinHeatLoss(grid);
-};
+const part1 = (input) => findMinHeatLoss(readLinesOfDigits(input));
 
-const part2 = (input) => {
-  const grid = readLinesOfDigits(input);
-  return findMinHeatLoss(grid, 4, 10);
-};
+const part2 = (input) => findMinHeatLoss(readLinesOfDigits(input), 4, 10);
 
 export { part1, part2 };
