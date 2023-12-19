@@ -1047,4 +1047,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>19</td>
+<td>
+
+[Aplenty](./src/challenges/2023/day-19/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-19/solution/solution.js)
+
+</td>
+</tr>
 </table>
