@@ -1061,4 +1061,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>20</td>
+<td>
+
+[Pulse Propagation](./src/challenges/2023/day-20/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-20/solution/solution.js)
+
+</td>
+</tr>
 </table>
