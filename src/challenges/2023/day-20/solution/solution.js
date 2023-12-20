@@ -55,17 +55,9 @@ class Node {
   }
 
   pulse(pulse = 0) {
-    if (this.name === "dh" && pulse === 0) {
-      console.log("name", this.name, "received pulse", pulse);
-      assert(false);
-    }
-
     if (pulse === 1) {
       this.numHighPulses += 1;
     } else {
-      if (["dh", "db"].includes(this.name)) {
-        console.log("name", this.name, "received pulse - low");
-      }
       this.numLowPulses += 1;
     }
 
