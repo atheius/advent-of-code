@@ -1,4 +1,4 @@
-import { readLinesOfDigits } from "../../../../helpers.js";
+import { readLinesOfDigits, minHeap } from "../../../../helpers.js";
 
 const getSurroundingPoints = ([y, x]) => ({
   north: [y - 1, x],
@@ -16,27 +16,24 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 3) => {
   const [endY, endX] = [grid.length - 1, grid[0].length - 1];
 
   // Queue of [y, x, direction, numDirection, heatLoss, path]
-  const queue = [
-    [0, 0, "south", 0, 0, [[0, 0]]],
-    [0, 0, "east", 0, 0, [[0, 0]]],
-  ];
+  const queue = [];
+
+  minHeap.push(queue, [0, 0, 0, "south", 0, [[0, 0]]]);
+  minHeap.push(queue, [0, 0, 0, "east", 0, [[0, 0]]]);
 
   const visited = new Map();
 
   let finalHeatLoss = Infinity;
   while (queue.length > 0) {
-    // Sort queue by heatLoss
-    queue.sort((a, b) => a[4] - b[4]);
-
     // Get the next step to check
     const [
+      currentHeatLoss,
       currentY,
       currentX,
       currentDirection,
       currentNumDirection,
-      currentHeatLoss,
       path,
-    ] = queue.shift();
+    ] = minHeap.pop(queue);
 
     visited.set(
       `${currentY},${currentX},${currentDirection},${currentNumDirection}`,
@@ -125,7 +122,7 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 3) => {
       }
 
       const alreadyInQueue = queue.findIndex((item) => {
-        const [itemY, itemX, itemDirection, itemNumDirection, ItemHeatLoss] =
+        const [ItemHeatLoss, itemY, itemX, itemDirection, itemNumDirection] =
           item;
         return (
           itemY === y &&
@@ -142,12 +139,12 @@ const findMinHeatLoss = (grid, minConsecutive = 0, maxConsecutive = 3) => {
         continue;
       }
 
-      queue.push([
+      minHeap.push(queue, [
+        nextHeatLoss,
         y,
         x,
         nextDirection,
         nextNumDirection,
-        nextHeatLoss,
         [...path, [y, x, nextDirection]],
       ]);
     }
