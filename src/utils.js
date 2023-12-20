@@ -6,6 +6,7 @@ import { JSDOM } from "jsdom";
 import dotenv from "dotenv";
 import chalk from "chalk";
 import TurndownService from "turndown";
+import { performance } from "perf_hooks";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const { version } = JSON.parse(
@@ -228,8 +229,15 @@ const solveDay = async (year, day, part) => {
     );
 
     const input = await getPuzzleInput(year, day, 1);
-    const answer = part === 1 ? part1(input) : part2(input);
 
+    const startTime = performance.now();
+    const answer = part === 1 ? part1(input) : part2(input);
+    const endTime = performance.now();
+    const perfResult = (endTime - startTime) / 1000;
+
+    console.log(
+      "Completed in " + chalk.blue(`${perfResult.toFixed(3)}`) + " seconds"
+    );
     console.log(
       `Year ${yearString} Day: ${dayString} Part: ${partString} Answer: ${answer.toString()}`
     );
