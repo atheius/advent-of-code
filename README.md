@@ -1075,4 +1075,18 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>21</td>
+<td>
+
+[Step Counter](./src/challenges/2023/day-21/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-21/solution/solution.js)
+
+</td>
+</tr>
 </table>

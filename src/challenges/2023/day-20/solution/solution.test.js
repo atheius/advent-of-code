@@ -12,11 +12,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const input = readFileSync(join(__dirname, "../example.txt"), "utf8");
 const input2 = readFileSync(join(__dirname, "../example2.txt"), "utf8");
 
+const realInput = readFileSync(join(__dirname, "../input.txt"), "utf8");
+
 test("2023 | day 20 | part 1", () => {
   assert.equal(part1(input), 32000000);
   assert.equal(part1(input2), 11687500);
 });
 
-// test("2023 | day 20 | part 2", () => {
-//   assert.equal(part2(input), null);
-// });
+test("2023 | day 20 | part 2", () => {
+  assert.equal(part2(realInput), 246006621493687);
+});
