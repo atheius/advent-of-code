@@ -1,4 +1,4 @@
-import { readLines, clone, intersect, max } from "../../../../helpers.js";
+import { readLines, clone } from "../../../../helpers.js";
 
 const parseInput = (input) =>
   readLines(input).map((line) => {
@@ -28,7 +28,7 @@ const getPositionMap = (input) => {
   return positionMap;
 };
 
-const stabaliseBricks = (bricks, positionMap) => {
+const stabiliseBricks = (bricks, positionMap) => {
   const settledPositions = clone(positionMap);
 
   let keepGoing = true;
@@ -124,7 +124,7 @@ const part1 = (input) => {
 
   const positionMap = getPositionMap(bricks);
 
-  const settledMap = stabaliseBricks(bricks, positionMap);
+  const settledMap = stabiliseBricks(bricks, positionMap);
 
   const { above, below } = getBrickDependencies(bricks, settledMap);
 
@@ -154,7 +154,7 @@ const part2 = (input) => {
 
   const positionMap = getPositionMap(bricks);
 
-  const settledMap = stabaliseBricks(bricks, positionMap);
+  const settledMap = stabiliseBricks(bricks, positionMap);
 
   const { above, below } = getBrickDependencies(bricks, settledMap);
 
@@ -186,6 +186,7 @@ const part2 = (input) => {
       }
     }
 
+    // Remove 1 from the total as we don't count the brick that started the chain reaction
     totalBricksDisintegrated += bricksDisintegrated.size - 1;
   }
 
