@@ -1103,4 +1103,46 @@ TODO
 
 </td>
 </tr>
+<tr>
+
+<td>23</td>
+<td>
+
+[A Long Walk](./src/challenges/2023/day-23/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-23/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+
+<td>24</td>
+<td>
+
+[Never Tell Me The Odds](./src/challenges/2023/day-24/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2023/day-24/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+
+<td>25</td>
+<td>
+
+[Snowverload](./src/challenges/2023/day-25/README.md)
+
+</td>
+<td>
+
+[Part 1](./src/challenges/2023/day-25/solution/solution.js)
+
+</td>
+</tr>
 </table>
