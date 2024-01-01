@@ -123,8 +123,8 @@ const createGrid = (height, width, char = ".") =>
     .map(() => Array(width).fill(char));
 
 const printGrid = (grid) => {
-  for (const row of grid) {
-    console.log("| " + row.join("") + " |");
+  for (const [idx, row] of Object.entries(grid)) {
+    console.log(idx.padStart(2, "0"), "| " + row.join(" ") + " |");
   }
 };
 

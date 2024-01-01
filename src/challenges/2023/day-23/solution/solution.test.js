@@ -12,9 +12,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const input = readFileSync(join(__dirname, "../example.txt"), "utf8");
 
 test("2023 | day 23 | part 1", () => {
-  assert.equal(part1(input), null);
+  assert.equal(part1(input), 94);
 });
 
 test("2023 | day 23 | part 2", () => {
-  assert.equal(part2(input), null);
+  assert.equal(part2(input), 154);
 });
