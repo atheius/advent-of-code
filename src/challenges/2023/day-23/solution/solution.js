@@ -112,7 +112,7 @@ const part1 = (input) => {
 };
 
 const getAdjacentJunctions = (map, junctions, start) => {
-  // Store [y,x,steps] for each adjacent junction
+  // Store [y, x, steps] for each adjacent junction
   let adjacentJunctions = [];
 
   const queue = [{ point: start, steps: 0, route: [] }];
