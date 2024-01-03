@@ -135,30 +135,6 @@ const copyDir = (src, dest) => {
   }
 };
 
-const updateReadme = (yearString, dayString, puzzleTitle) => {
-  if (fs.existsSync("./README.md")) {
-    const readmeFile = fs.readFileSync("./README.md", "utf8");
-    if (readmeFile.includes("<table")) {
-      const newRow = `<tr>
-${dayString === "01" ? `<td rowspan="25">${yearString}</td>` : ""}
-<td>${dayString}</td>
-<td>
-
-[${puzzleTitle}](./src/challenges/${yearString}/day-${dayString}/README.md)
-
-</td>
-<td>
-
-[Part 1 and 2](./src/challenges/${yearString}/day-${dayString}/solution/solution.js)
-
-</td>
-</tr>
-</table>`;
-      fs.writeFileSync("./README.md", readmeFile.replace("</table>", newRow));
-    }
-  }
-};
-
 /**
  * Initialise day
  * @param {*} day
@@ -202,8 +178,6 @@ const initDay = async (year, day) => {
   console.log(chalk.green(`Getting question for day: ${dayString}`));
 
   const puzzleTitle = await getQuestionMarkdown(year, day);
-
-  updateReadme(yearString, dayString, puzzleTitle);
 
   console.log(
     chalk.green(`Getting puzzle input for day: ${dayString} part: 01`)
