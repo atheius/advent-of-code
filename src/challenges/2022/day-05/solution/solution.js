@@ -1,43 +1,22 @@
+import { transpose } from "../../../../helpers.js";
+
 const parseInput = (input) => {
-  const lines = input.split("\n");
+  const [rawCrateMap, rawInstructions] = input.split("\n\n");
 
-  let indexMap;
-  let rawCrates = [];
-  let instructions = [];
+  const instructions = rawInstructions
+    .split("\n")
+    .filter((x) => x !== "")
+    .map((i) => i.match(/\d+/g).map((x) => Number.parseInt(x, 10)));
 
-  for (const line of lines) {
-    if (!indexMap && !line.startsWith(" 1")) {
-      // These are the crates...
-      rawCrates.push(line);
-    }
-    if (indexMap && line !== "") {
-      // These are the instructions...
-      instructions.push(line.match(/\d+/g).map((x) => Number.parseInt(x, 10)));
-    }
-    if (line.startsWith(" 1")) {
-      // Create an index map from the crate index line
-      indexMap = line.split("").reduce((acc, char, idx) => {
-        if (char !== " ") {
-          acc[char] = idx;
-        }
-        return acc;
-      }, {});
-    }
-  }
-
-  const crates = {};
-
-  for (const line of rawCrates) {
-    for (const [key, value] of Object.entries(indexMap)) {
-      if (!crates[key]) {
-        crates[key] = [];
-      }
-      if (line[value] !== " ") {
-        // Add crates in reverse order
-        crates[key] = [line[value], ...crates[key]];
-      }
-    }
-  }
+  const crates = transpose(
+    rawCrateMap.split("\n").map((line) =>
+      line
+        .split("")
+        .slice(1)
+        // Crate is on every 4th character in line
+        .filter((_, index) => index % 4 === 0)
+    )
+  ).map((x) => x.filter((crate) => crate != " ").reverse());
 
   return [instructions, crates];
 };
@@ -45,37 +24,31 @@ const parseInput = (input) => {
 const part1 = (input) => {
   const [instructions, crates] = parseInput(input);
 
-  const reArrangedCrates = { ...crates };
+  const reArrangedCrates = [...crates];
 
   for (const [numToMove, source, location] of instructions) {
     for (let i = 0; i < numToMove; i++) {
-      reArrangedCrates[location].push(reArrangedCrates[source].pop());
+      reArrangedCrates[location - 1].push(reArrangedCrates[source - 1].pop());
     }
   }
 
-  return Object.values(reArrangedCrates).reduce(
-    (acc, stack) => acc + stack.pop(),
-    ""
-  );
+  return reArrangedCrates.reduce((acc, stack) => acc + stack.pop(), "");
 };
 
 const part2 = (input) => {
   const [instructions, crates] = parseInput(input);
 
-  const reArrangedCrates = { ...crates };
+  const reArrangedCrates = [...crates];
 
   for (const [numToMove, source, location] of instructions) {
     const cratesToMove = [];
     for (let i = 0; i < numToMove; i++) {
-      cratesToMove.push(reArrangedCrates[source].pop());
+      cratesToMove.push(reArrangedCrates[source - 1].pop());
     }
-    reArrangedCrates[location].push(...cratesToMove.reverse());
+    reArrangedCrates[location - 1].push(...cratesToMove.reverse());
   }
 
-  return Object.values(reArrangedCrates).reduce(
-    (acc, stack) => acc + stack.pop(),
-    ""
-  );
+  return reArrangedCrates.reduce((acc, stack) => acc + stack.pop(), "");
 };
 
 export { part1, part2 };
