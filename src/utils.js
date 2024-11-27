@@ -1,10 +1,16 @@
 import fetch from "node-fetch";
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { JSDOM } from "jsdom";
 import dotenv from "dotenv";
 import chalk from "chalk";
 import TurndownService from "turndown";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const { version } = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "../package.json"))
+);
 
 dotenv.config();
 
@@ -17,6 +23,11 @@ const turndownService = new TurndownService({
 const BASE_URL = "https://adventofcode.com";
 const SESSION_TOKEN = process.env.SESSION_TOKEN;
 
+const requestHeaders = {
+  cookie: `session=${SESSION_TOKEN}`,
+  "User-Agent": `github.com/atheius/aoc v${version}`,
+};
+
 /**
  * Get the puzzle input for the day
  */
@@ -26,20 +37,20 @@ const getPuzzleInput = async (year, day) => {
       .toString()
       .padStart(2, "0")}/input.txt`;
 
-    if (!fs.existsSync(inputFile)) {
-      const res = await fetch(`${BASE_URL}/${year}/day/${day}/input`, {
-        headers: {
-          cookie: `session=${SESSION_TOKEN}`,
-        },
-        method: "GET",
-      });
+    const res = await fetch(`${BASE_URL}/${year}/day/${day}/input`, {
+      headers: requestHeaders,
+      method: "GET",
+    });
 
-      const data = await res.text();
+    const data = await res.text();
 
-      fs.writeFileSync(inputFile, data);
+    if (fs.existsSync(inputFile)) {
+      fs.unlinkSync(inputFile);
     }
 
-    return fs.readFileSync(inputFile).toString();
+    fs.writeFileSync(inputFile, data);
+
+    return data;
   } catch (err) {
     console.error(chalk.red("Failed to get puzzle input."));
     console.error(err.message);
@@ -55,9 +66,7 @@ const getPuzzleInput = async (year, day) => {
 const getQuestionMarkdown = async (year, day) => {
   try {
     const res = await fetch(`${BASE_URL}/${year}/day/${day}`, {
-      headers: {
-        cookie: `session=${SESSION_TOKEN}`,
-      },
+      headers: requestHeaders,
       method: "GET",
     });
 
@@ -124,7 +133,9 @@ const initDay = async (year, day) => {
       )
     )
   ) {
-    console.log(chalk.yellow("Folder already exists - skipping."));
+    console.log(
+      chalk.yellow("Folder already exists - skipping create template")
+    );
   } else {
     console.log(chalk.green(`Creating template folder for day: ${dayString}`));
     copyDir(
@@ -189,7 +200,7 @@ const submitSolution = async (year, day, part) => {
 
     const result = await fetch(`${BASE_URL}/${year}/day/${day}/answer`, {
       headers: {
-        cookie: `session=${process.env.SESSION_TOKEN}`,
+        ...requestHeaders,
         "content-type": "application/x-www-form-urlencoded",
       },
       method: "POST",

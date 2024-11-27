@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as fs from "fs";
+import path from "path";
+import { readdir, readFile } from "fs/promises";
 import chalk from "chalk";
 import { performance } from "perf_hooks";
 import { fileURLToPath } from "url";
@@ -7,34 +7,36 @@ import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const baseDir = "./src/challenges/2021";
 
-fs.readdir(baseDir, async (err, files) => {
-  if (err) {
-    throw err;
-  }
+const years = await readdir("./src/challenges/");
 
-  console.log(chalk.white("\n----- Benchmarks (µs) -----"));
+console.log(chalk.white("\n----- Benchmarks (µs) -----"));
 
-  for (let file of files) {
-    const dayString = file.split("-")[1];
+for (const year of years) {
+  const baseDir = `./src/challenges/${year}`;
+
+  const days = await readdir(baseDir);
+
+  for (const day of days) {
+    const dayString = day.split("-")[1];
 
     const { part1, part2 } = await import(
       path.join(
-        path.join(__dirname, "../", baseDir, file, "solution/solution.js")
+        path.join(__dirname, "../", baseDir, day, "solution/solution.js")
       )
     );
 
-    const input = fs
-      .readFileSync(path.join(__dirname, "../", baseDir, file, "example.txt"))
-      .toString();
+    const input = await readFile(
+      path.join(__dirname, "../", baseDir, day, "example.txt"),
+      "utf-8"
+    );
 
     const startTime = performance.now();
     part1(input);
     const endTime = performance.now();
     const perfResult = (endTime - startTime) * 1000;
     console.log(
-      `\nDay ${dayString} Part 01:`,
+      `\nYear ${year} Day ${dayString} Part 01:`,
       chalk.green(`${perfResult.toFixed(0)}`.padEnd(4))
     );
 
@@ -43,10 +45,10 @@ fs.readdir(baseDir, async (err, files) => {
     const endTime2 = performance.now();
     const perfResult2 = (endTime2 - startTime2) * 1000;
     console.log(
-      `Day ${dayString} Part 02:`,
+      `Year ${year} Day ${dayString} Part 02:`,
       chalk.green(`${perfResult2.toFixed(0)}`.padEnd(4))
     );
   }
+}
 
-  console.log("\n");
-});
+console.log("\n");
