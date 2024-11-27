@@ -1,4 +1,4 @@
-import { readLines } from "../../../../helpers.js";
+import { readLinesOfInstructions } from "../../../../helpers.js";
 
 const moveHead = (head, direction) => {
   const newHead = [...head];
@@ -27,9 +27,7 @@ const isTouching = (head, tail) =>
   Math.abs(head[0] - tail[0]) <= 1 && Math.abs(head[1] - tail[1]) <= 1;
 
 const part1 = (input) => {
-  const instructions = readLines(input)
-    .map((x) => x.split(" "))
-    .map(([position, steps]) => [position, Number.parseInt(steps, 10)]);
+  const instructions = readLinesOfInstructions(input);
 
   let head = [0, 0];
   let tail = [0, 0];
@@ -48,9 +46,7 @@ const part1 = (input) => {
 };
 
 const part2 = (input) => {
-  const instructions = readLines(input)
-    .map((x) => x.split(" "))
-    .map(([position, steps]) => [position, Number.parseInt(steps, 10)]);
+  const instructions = readLinesOfInstructions(input);
 
   let head = [0, 0];
   let tails = [
