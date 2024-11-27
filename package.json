@@ -1,8 +1,8 @@
 {
   "name": "aoc",
-  "author": "atheius",
+  "author": "James Mugliston",
   "version": "1.1.0",
-  "description": "",
+  "description": "Advent of Code solutions in JavaScript",
   "type": "module",
   "main": "index.js",
   "bin": {
