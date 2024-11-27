@@ -1,32 +1,30 @@
 import { readLines, aperture } from "../../../../helpers.js";
 
-const findLimits = (input) => {
-  let minX = 500;
-  let minY = 0; // minY stays 0 (source of sand)
-  let maxX = 500;
-  let maxY = 0;
-  for (const line of input) {
-    for (const [x, y] of line) {
-      if (x < minX) {
-        minX = x;
+const findLimits = (lines) =>
+  lines.reduce(
+    (acc, line) => {
+      for (const [x, y] of line) {
+        if (x < acc.minX) {
+          acc.minX = x;
+        }
+        if (x > acc.maxX) {
+          acc.maxX = x;
+        }
+        if (y > acc.maxY) {
+          acc.maxY = y;
+        }
       }
-      if (x > maxX) {
-        maxX = x;
-      }
-      if (y > maxY) {
-        maxY = y;
-      }
+      return acc;
+    },
+    {
+      minX: 500,
+      minY: 0, // minY stays 0 (source of sand)
+      maxX: 500,
+      maxY: 0,
     }
-  }
-  return {
-    minX,
-    minY,
-    maxX,
-    maxY,
-  };
-};
+  );
 
-const createGrid = (width, height, rockLines, mid, addBottom = false) => {
+const createGrid = (width, height, rockLines, relativeX, addBottom = false) => {
   const grid = [];
   for (let row = 0; row < height; row++) {
     grid[row] = [];
@@ -44,32 +42,28 @@ const createGrid = (width, height, rockLines, mid, addBottom = false) => {
     for (const [[x1, y1], [x2, y2]] of aperture(2, line)) {
       dx = Math.sign(x2 - x1);
       dy = Math.sign(y2 - y1);
-
-      // left
+      // draw left
       if (dx < 0) {
         for (let i = x1; i > x2 - 1; i--) {
-          grid[y1][mid + (i - 500)] = "#";
+          grid[y1][relativeX + (i - 500)] = "#";
         }
       }
-
-      // right
+      // draw right
       if (dx > 0) {
         for (let i = x1; i < x2 + 1; i++) {
-          grid[y1][mid + (i - 500)] = "#";
+          grid[y1][relativeX + (i - 500)] = "#";
         }
       }
-
-      // up
+      // draw up
       if (dy < 0) {
         for (let i = y1; i > y2 - 1; i--) {
-          grid[i][mid + (x1 - 500)] = "#";
+          grid[i][relativeX + (x1 - 500)] = "#";
         }
       }
-
-      // down
+      // draw down
       if (dy > 0) {
         for (let i = y1; i < y2 + 1; i++) {
-          grid[i][mid + (x1 - 500)] = "#";
+          grid[i][relativeX + (x1 - 500)] = "#";
         }
       }
     }
@@ -78,63 +72,69 @@ const createGrid = (width, height, rockLines, mid, addBottom = false) => {
   return grid;
 };
 
-const addSand = (grid, sandCol, maxX, isInfinite = true) => {
-  let addedSand = 0;
-  let finished = false;
+const addSand = (grid, sandX, maxX, isInfinite = true) => {
+  let finished = false; // track whether simulation is done
+  let down = 0; // track how far down we are
+  let currentX = sandX; // track left / right position
 
-  let stopped = false;
-  let down = 0;
-  let currentX = sandCol;
-  while (!stopped) {
+  while (true) {
     if (
       isInfinite &&
       (currentX < 0 || currentX > grid[0].length - 1 || down > grid.length - 1)
     ) {
-      stopped = true;
+      // sand will run to infinity
+      finished = true;
       break;
     }
 
-    if (grid[down][currentX] !== ".") {
-      if (grid[down][currentX - 1] === "." || currentX - 1 < 0) {
-        // diagonal left
-        currentX -= 1;
-      } else if (grid[down][currentX + 1] === "." || currentX + 1 > maxX) {
-        // diagonal right
-        currentX += 1;
-      } else {
-        // down
-        stopped = true;
-        addedSand += 1;
-        if (down === 1 && currentX === sandCol) {
-          grid[0][sandCol] = "o";
-          finished = true;
-        } else {
-          grid[down - 1][currentX] = "o";
-        }
-      }
+    if (grid[down][currentX] === ".") {
+      // down
+      down += 1;
+      continue;
     }
-    down += 1;
+
+    if (grid[down][currentX - 1] === "." || currentX - 1 < 0) {
+      // diagonal left
+      down += 1;
+      currentX -= 1;
+      continue;
+    }
+
+    if (grid[down][currentX + 1] === "." || currentX + 1 > maxX) {
+      // diagonal right
+      down += 1;
+      currentX += 1;
+      continue;
+    }
+
+    // Did the sand stop at the source?
+    if (down === 1 && currentX === sandX) {
+      grid[0][sandX] = "o";
+      finished = true;
+      break;
+    }
+
+    // grain of sand has stopped
+    grid[down - 1][currentX] = "o";
+    break;
   }
 
-  return { updatedGrid: grid, addedSand, finished };
+  return { grid, finished };
 };
 
-const printGrid = (grid) => {
-  for (let row = 0; row < grid.length; row++) {
-    console.log(row.toString().padStart(2, "0") + " " + grid[row].join(""));
-  }
-};
-
-const runSimulation = (grid, sandSourceRelativeX, maxX) => {
-  let keepAddingSand = true;
+const runSandSimulation = (grid, sandSourceRelativeX, maxX, type = 1) => {
   let nextGrid = grid;
   let grainsOfSand = 0;
-  while (keepAddingSand) {
+  while (true) {
     const res = addSand(nextGrid, sandSourceRelativeX, maxX);
-    nextGrid = res.updatedGrid;
-    grainsOfSand += res.addedSand;
-    if (res.addedSand === 0 || res.finished) {
-      keepAddingSand = false;
+    nextGrid = res.grid;
+    grainsOfSand += 1;
+    if (res.finished) {
+      if (type === 1) {
+        // If this is part1, don't count the last grain of sand (reached infinty)
+        grainsOfSand -= 1;
+      }
+      break;
     }
   }
   return grainsOfSand;
@@ -158,9 +158,7 @@ const part1 = (input) => {
     sandSourceRelativeX
   );
 
-  const grainsOfSand = runSimulation(grid, sandSourceRelativeX, maxX);
-
-  return grainsOfSand;
+  return runSandSimulation(grid, sandSourceRelativeX, maxX);
 };
 
 const part2 = (input) => {
@@ -180,9 +178,7 @@ const part2 = (input) => {
     true
   );
 
-  const grainsOfSand = runSimulation(grid, sandSourceRelativeX, maxX);
-
-  return grainsOfSand;
+  return runSandSimulation(grid, sandSourceRelativeX, maxX, 2);
 };
 
 export { part1, part2 };
