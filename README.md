@@ -68,7 +68,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>01</td>
 <td>
 
-[Sonar Sweep](./src/challenges/2021/day-01/readme.md)
+[Sonar Sweep](./src/challenges/2021/day-01/README.md)
 
 </td>
 <td>
@@ -83,7 +83,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>02</td>
 <td>
 
-[Dive!](./src/challenges/2021/day-02/readme.md)
+[Dive!](./src/challenges/2021/day-02/README.md)
 
 </td>
 <td>
@@ -96,7 +96,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>03</td>
 <td>
 
-[Binary Diagnostic](./src/challenges/2021/day-03/readme.md)
+[Binary Diagnostic](./src/challenges/2021/day-03/README.md)
 
 </td>
 <td>
@@ -110,7 +110,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>04</td>
 <td>
 
-[Giant Squid](./src/challenges/2021/day-04/readme.md)
+[Giant Squid](./src/challenges/2021/day-04/README.md)
 
 </td>
 <td>
@@ -123,7 +123,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>05</td>
 <td>
 
-[Hydrothermal Venture](./src/challenges/2021/day-05/readme.md)
+[Hydrothermal Venture](./src/challenges/2021/day-05/README.md)
 
 </td>
 <td>
@@ -137,7 +137,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>06</td>
 <td>
 
-[Lanternfish](./src/challenges/2021/day-06/readme.md)
+[Lanternfish](./src/challenges/2021/day-06/README.md)
 
 </td>
 <td>
@@ -150,7 +150,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>07</td>
 <td>
 
-[The Treachery of Whales](./src/challenges/2021/day-07/readme.md)
+[The Treachery of Whales](./src/challenges/2021/day-07/README.md)
 
 </td>
 <td>
@@ -164,7 +164,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>08</td>
 <td>
 
-[Seven Segment Search](./src/challenges/2021/day-08/readme.md)
+[Seven Segment Search](./src/challenges/2021/day-08/README.md)
 
 </td>
 <td>
@@ -177,7 +177,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>09</td>
 <td>
 
-[Smoke Basin](./src/challenges/2021/day-09/readme.md)
+[Smoke Basin](./src/challenges/2021/day-09/README.md)
 
 </td>
 <td>
@@ -191,7 +191,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>10</td>
 <td>
 
-[Syntax Scoring](./src/challenges/2021/day-10/readme.md)
+[Syntax Scoring](./src/challenges/2021/day-10/README.md)
 
 </td>
 <td>
@@ -204,7 +204,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>11</td>
 <td>
 
-[Dumbo Octopus](./src/challenges/2021/day-11/readme.md)
+[Dumbo Octopus](./src/challenges/2021/day-11/README.md)
 
 </td>
 <td>
@@ -218,7 +218,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>12</td>
 <td>
 
-[Passage Pathing](./src/challenges/2021/day-12/readme.md)
+[Passage Pathing](./src/challenges/2021/day-12/README.md)
 
 </td>
 <td>
@@ -231,7 +231,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>13</td>
 <td>
 
-[Transparent Origami](./src/challenges/2021/day-13/readme.md)
+[Transparent Origami](./src/challenges/2021/day-13/README.md)
 
 </td>
 <td>
@@ -245,7 +245,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>14</td>
 <td>
 
-[Extended Polymerization](./src/challenges/2021/day-14/readme.md)
+[Extended Polymerization](./src/challenges/2021/day-14/README.md)
 
 </td>
 <td>
@@ -258,7 +258,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>15</td>
 <td>
 
-[Chiton](./src/challenges/2021/day-15/readme.md)
+[Chiton](./src/challenges/2021/day-15/README.md)
 
 </td>
 <td>
@@ -272,7 +272,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>16</td>
 <td>
 
-[Packet Decoder](./src/challenges/2021/day-16/readme.md)
+[Packet Decoder](./src/challenges/2021/day-16/README.md)
 
 </td>
 <td>
@@ -285,7 +285,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>17</td>
 <td>
 
-[Trick Shot](./src/challenges/2021/day-17/readme.md)
+[Trick Shot](./src/challenges/2021/day-17/README.md)
 
 </td>
 <td>
@@ -299,7 +299,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>18</td>
 <td>
 
-[Snailfish](./src/challenges/2021/day-18/readme.md)
+[Snailfish](./src/challenges/2021/day-18/README.md)
 
 </td>
 <td>
@@ -312,7 +312,7 @@ See below for a list of puzzles and solutions in this repo.
 <td>19</td>
 <td>
 
-[Beacon Scanner](./src/challenges/2021/day-19/readme.md)
+[Beacon Scanner](./src/challenges/2021/day-19/README.md)
 
 </td>
 <td>
@@ -326,7 +326,7 @@ TODO
 <td>20</td>
 <td>
 
-[Trench Map](./src/challenges/2021/day-20/readme.md)
+[Trench Map](./src/challenges/2021/day-20/README.md)
 
 </td>
 <td>
@@ -339,7 +339,7 @@ TODO
 <td>21</td>
 <td>
 
-[Dirac Dice](./src/challenges/2021/day-21/readme.md)
+[Dirac Dice](./src/challenges/2021/day-21/README.md)
 
 </td>
 <td>
@@ -353,7 +353,7 @@ TODO
 <td>22</td>
 <td>
 
-[Reactor Reboot](./src/challenges/2021/day-22/readme.md)
+[Reactor Reboot](./src/challenges/2021/day-22/README.md)
 
 </td>
 <td>
@@ -366,7 +366,7 @@ TODO
 <td>23</td>
 <td>
 
-[Amphipod](./src/challenges/2021/day-23/readme.md)
+[Amphipod](./src/challenges/2021/day-23/README.md)
 
 </td>
 <td>
@@ -380,7 +380,7 @@ TODO
 <td>24</td>
 <td>
 
-[Arithmetic Logic Unit](./src/challenges/2021/day-24/readme.md)
+[Arithmetic Logic Unit](./src/challenges/2021/day-24/README.md)
 
 </td>
 <td>
@@ -393,7 +393,7 @@ TODO
 <td>25</td>
 <td>
 
-[Sea Cucumber](./src/challenges/2021/day-25/readme.md)
+[Sea Cucumber](./src/challenges/2021/day-25/README.md)
 
 </td>
 <td>
@@ -408,7 +408,7 @@ TODO
 <td>01</td>
 <td>
 
-[Calorie Counting](./src/challenges/2022/day-01/readme.md)
+[Calorie Counting](./src/challenges/2022/day-01/README.md)
 
 </td>
 <td>
@@ -423,7 +423,7 @@ TODO
 <td>02</td>
 <td>
 
-[Rock Paper Scissors](./src/challenges/2022/day-02/readme.md)
+[Rock Paper Scissors](./src/challenges/2022/day-02/README.md)
 
 </td>
 <td>
@@ -436,7 +436,7 @@ TODO
 <td>03</td>
 <td>
 
-[Rucksack Reorganization](./src/challenges/2022/day-03/readme.md)
+[Rucksack Reorganization](./src/challenges/2022/day-03/README.md)
 
 </td>
 <td>
@@ -450,7 +450,7 @@ TODO
 <td>04</td>
 <td>
 
-[Camp Cleanup](./src/challenges/2022/day-04/readme.md)
+[Camp Cleanup](./src/challenges/2022/day-04/README.md)
 
 </td>
 <td>
@@ -463,7 +463,7 @@ TODO
 <td>05</td>
 <td>
 
-[Supply Stacks](./src/challenges/2022/day-05/readme.md)
+[Supply Stacks](./src/challenges/2022/day-05/README.md)
 
 </td>
 <td>
@@ -477,7 +477,7 @@ TODO
 <td>06</td>
 <td>
 
-[Tuning Trouble](./src/challenges/2022/day-06/readme.md)
+[Tuning Trouble](./src/challenges/2022/day-06/README.md)
 
 </td>
 <td>
@@ -490,7 +490,7 @@ TODO
 <td>07</td>
 <td>
 
-[No Space Left On Device](./src/challenges/2022/day-07/readme.md)
+[No Space Left On Device](./src/challenges/2022/day-07/README.md)
 
 </td>
 <td>
@@ -504,7 +504,7 @@ TODO
 <td>08</td>
 <td>
 
-[Treetop Tree House](./src/challenges/2022/day-08/readme.md)
+[Treetop Tree House](./src/challenges/2022/day-08/README.md)
 
 </td>
 <td>
@@ -517,7 +517,7 @@ TODO
 <td>09</td>
 <td>
 
-[Rope Bridge](./src/challenges/2022/day-09/readme.md)
+[Rope Bridge](./src/challenges/2022/day-09/README.md)
 
 </td>
 <td>
