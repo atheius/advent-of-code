@@ -92,34 +92,62 @@ const checkExclusion = (grid, limits, sensorReadings, row) => {
   return count;
 };
 
-const searchgrid = (sensorReadings, limits, searchLimits) => {
-  // First find all the beacon distances first...
-  const sensorDetails = [];
+const getPerimeterPoints = (sensorReadings, searchLimits) => {
+  const perimeterPoints = [];
+
+  // Get all points for outer perimiter of diamond
   for (const [[x1, y1], [x2, y2]] of sensorReadings) {
-    const distanceToBeacon = manhattanDistance([x1, y1], [x2, y2]);
-    const relativePoint = [
-      Math.abs(limits.minX - x1),
-      Math.abs(limits.minY - y1),
-    ];
-    sensorDetails.push([relativePoint, distanceToBeacon]);
-  }
+    const beaconDistance = manhattanDistance([x1, y1], [x2, y2]);
 
-  let covered;
+    for (let i = 0; i <= beaconDistance + 1; i++) {
+      const nextPoints = [
+        // top left edge
+        [x1 - beaconDistance - 1 + i, y1 - i],
+        // top right edge
+        [x1 + beaconDistance + 1 - i, y1 - i],
+        // bottom left edge
+        [x1 - beaconDistance - 1 + i, y1 + i],
+        // bottom right edge
+        [x1 + beaconDistance + 1 - i, y1 + i],
+      ];
 
-  // Todo: This should be optimised!
-  // Brute force check for points that are not covered...
-  for (let row = Math.abs(limits.minY); row < searchLimits.maxY; row++) {
-    console.log("Processing row: ", row);
-    for (let col = Math.abs(limits.minX); col < searchLimits.maxX; col++) {
-      covered = false;
-      for (const [relativePoint, distanceToBeacon] of sensorDetails) {
-        if (manhattanDistance(relativePoint, [col, row]) <= distanceToBeacon) {
-          covered = true;
+      for (const [x, y] of nextPoints) {
+        if (
+          x >= 0 &&
+          x <= searchLimits.maxX &&
+          y >= 0 &&
+          y <= searchLimits.maxY
+        ) {
+          // Add perimiter point if it's within search bounds
+          perimeterPoints.push([x, y]);
         }
       }
-      if (!covered) {
-        return [row + limits.minY, col + limits.minX];
+    }
+  }
+  return perimeterPoints;
+};
+
+const checkPoints = (points, sensorReadings) => {
+  // Find the distance from each sensor to it's closest beacon
+  const sensorDetails = sensorReadings.reduce(
+    (acc, [[x1, y1], [x2, y2]]) => [
+      ...acc,
+      [[x1, y1], manhattanDistance([x1, y1], [x2, y2])],
+    ],
+    []
+  );
+
+  // Find the point that's not covered by a sensor
+  let covered;
+  for (let [x, y] of points) {
+    covered = false;
+    for (const [point, distanceToBeacon] of sensorDetails) {
+      if (manhattanDistance(point, [x, y]) <= distanceToBeacon) {
+        covered = true;
       }
+    }
+    if (!covered) {
+      return [x, y];
     }
   }
 };
@@ -131,7 +159,7 @@ const part1 = (input) => {
 
   const limits = findLimits(sensorReadings);
 
-  // Increase the X bounds by a large number (note sure how to decide these?)
+  // Increase the X bounds by a large number (not sure how to decide these... I just increased until answer was stable)
   limits.minX = limits.minX - 2000000;
   limits.maxX = limits.maxX + 2000000;
 
@@ -140,8 +168,7 @@ const part1 = (input) => {
 
   const grid = addReadings(emptyGrid, limits, sensorReadings);
 
-  // const checkRowNumber = 2000000; // part 1 input
-  const checkRowNumber = 10; // test input
+  const checkRowNumber = 10; // use 2000000 for part 1 input
 
   return checkExclusion(grid, limits, sensorReadings, checkRowNumber);
 };
@@ -151,18 +178,16 @@ const part2 = (input) => {
     chunk(x, 2)
   );
 
-  const limits = findLimits(sensorReadings);
-
   const searchLimits = {
     maxX: 20, // use 4000000 for part 2 input
     maxY: 20, // use 4000000 for part 2 input
   };
 
-  const point = searchgrid(sensorReadings, limits, searchLimits);
+  const perimeterPoints = getPerimeterPoints(sensorReadings, searchLimits);
 
-  console.log(point);
+  const point = checkPoints(perimeterPoints, sensorReadings);
 
-  return point[1] * 4000000 + point[0];
+  return point[0] * 4000000 + point[1];
 };
 
 export { part1, part2 };
