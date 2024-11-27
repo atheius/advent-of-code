@@ -147,7 +147,13 @@ const nextStep = (
 };
 
 const findMaxFlow = (move, maxFlow = 0, path = []) => {
+  if (!move) {
+    // console.log("no total flow", JSON.stringify(move));
+    return { maxFlow, path };
+  }
+
   let nextFlow = move.totalFlow;
+
   let nextSteps = [];
 
   if (move.nextStep) {
@@ -167,6 +173,21 @@ const findMaxFlow = (move, maxFlow = 0, path = []) => {
   return { maxFlow, path };
 };
 
+const PREVIOUSLY_CHECKED = {};
+const BEST_SO_FAR_FLOW = {
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+};
+const TOTAL_CHECKS = 0;
+
 // This function is a mess and doesn't work (brute force approach)...
 const nextStepWithElephant = (
   source,
@@ -179,6 +200,21 @@ const nextStepWithElephant = (
   remainingTimeElephant,
   depth = 1
 ) => {
+  // console.log(source, elephantSource, remainingTime, remainingTimeElephant);
+
+  if (
+    PREVIOUSLY_CHECKED[
+      `${currentFlow},${source},${elephantSource},${remainingTime},${remainingTimeElephant}`
+    ] ||
+    PREVIOUSLY_CHECKED[
+      `${currentFlow},${elephantSource},${source},${remainingTimeElephant},${remainingTime}`
+    ]
+  ) {
+    return PREVIOUSLY_CHECKED[
+      `${currentFlow},${source},${elephantSource},${remainingTime},${remainingTimeElephant}`
+    ];
+  }
+
   const nextMoves = {};
   for (let nextValve of valves) {
     const remainingValves = valves.filter((valve) => valve !== nextValve);
@@ -186,6 +222,7 @@ const nextStepWithElephant = (
     const nextRemainingTime = remainingTime - pathLength - 1;
     const totalFlow =
       currentFlow + flowRateMap[nextValve] * (remainingTime - pathLength - 1);
+
     for (let nextElephantValve of remainingValves) {
       const nextRemainingValvesWithElephant = remainingValves.filter(
         (valve) => valve !== nextElephantValve
@@ -199,13 +236,19 @@ const nextStepWithElephant = (
         flowRateMap[nextElephantValve] *
           (remainingTimeElephant - elephantPathLength - 1);
 
-      if (remainingTime > 0) {
-        nextMoves[nextValve + nextElephantValve] = {
-          remainingTime: nextRemainingTime,
-          remainingTimeElephant: nextRemainingTimeElephant,
-          totalFlow: totalFlowWithElephant,
-          remainingValves: nextRemainingValvesWithElephant,
-          nextStep: nextStepWithElephant(
+      if (totalFlowWithElephant >= BEST_SO_FAR_FLOW[depth]) {
+        BEST_SO_FAR_FLOW[depth] = totalFlowWithElephant;
+        console.log(
+          "Best so far: ",
+          BEST_SO_FAR_FLOW[depth],
+          "at depth",
+          depth
+        );
+      }
+
+      if (depth <= 1 || totalFlowWithElephant > BEST_SO_FAR_FLOW[depth - 1]) {
+        if (remainingTime > 0) {
+          const nextStepToTake = nextStepWithElephant(
             nextValve,
             nextElephantValve,
             shortestPathMap,
@@ -215,11 +258,30 @@ const nextStepWithElephant = (
             nextRemainingTime,
             nextRemainingTimeElephant,
             depth + 1
-          ),
-        };
+          );
+
+          PREVIOUSLY_CHECKED[
+            `${currentFlow},${source},${elephantSource},${remainingTime},${remainingTimeElephant}`
+          ] = {
+            remainingTime: nextRemainingTime,
+            remainingTimeElephant: nextRemainingTimeElephant,
+            totalFlow: totalFlowWithElephant,
+            remainingValves: nextRemainingValvesWithElephant,
+            nextStep: nextStepToTake,
+          };
+
+          nextMoves[nextValve + nextElephantValve] = {
+            remainingTime: nextRemainingTime,
+            remainingTimeElephant: nextRemainingTimeElephant,
+            totalFlow: totalFlowWithElephant,
+            remainingValves: nextRemainingValvesWithElephant,
+            nextStep: nextStepToTake,
+          };
+        }
       }
     }
   }
+
   return nextMoves;
 };
 
@@ -298,7 +360,10 @@ const part2 = (input) => {
     26
   );
 
-  // console.log(nextSteps["JJDD"].nextStep["BBHH"].nextStep["CCEE"]);
+  // console.log(
+  //   nextSteps["EATH"].nextStep["QNLR"].nextStep["GWKB"].nextStep["SANA"]
+  //     .nextStep["FIXX"].nextStep["ATUD"].nextStep["TOYD"]
+  // );
 
   // Find the max flow rate
   const { maxFlow, path } = findMaxFlow({
@@ -306,8 +371,9 @@ const part2 = (input) => {
     nextStep: nextSteps,
   });
 
-  // console.log(path);
+  console.log(path);
 
+  // 2351
   return maxFlow;
 };
 
