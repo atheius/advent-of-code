@@ -53,8 +53,6 @@ const calculateMonkeyBusiness = (monkeys, part) => {
   let worryLevel;
   while (currentRound < rounds) {
     for (const currentMonkey of monkeys) {
-      let thrownItems = 0;
-
       for (const item of currentMonkey.items) {
         worryLevel = runOperation(item, currentMonkey.operation);
 
@@ -70,11 +68,9 @@ const calculateMonkeyBusiness = (monkeys, part) => {
           monkeys[currentMonkey.test.isFalse].items.push(worryLevel);
         }
 
-        thrownItems += 1;
         currentMonkey.inspectedItems += 1;
       }
-      // Remove items that have been thrown to other monkeys
-      currentMonkey.items = currentMonkey.items.slice(thrownItems);
+      currentMonkey.items = [];
     }
     currentRound += 1;
   }
