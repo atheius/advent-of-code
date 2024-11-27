@@ -39,9 +39,6 @@ const findLimits = (sensorReadings) => {
 const manhattanDistance = ([x1, y1], [x2, y2]) =>
   Math.abs(x1 - x2) + Math.abs(y1 - y2);
 
-// Create a sparse Array based on limits
-const createGrid = (limits) => new Array(limits.maxY - limits.minY + 1);
-
 // Add sensor readings to the grid
 const addReadings = (grid, limits, sensorReadings) => {
   for (const [[x1, y1], [x2, y2]] of sensorReadings) {
@@ -95,6 +92,38 @@ const checkExclusion = (grid, limits, sensorReadings, row) => {
   return count;
 };
 
+const searchgrid = (sensorReadings, limits, searchLimits) => {
+  // First find all the beacon distances first...
+  const sensorDetails = [];
+  for (const [[x1, y1], [x2, y2]] of sensorReadings) {
+    const distanceToBeacon = manhattanDistance([x1, y1], [x2, y2]);
+    const relativePoint = [
+      Math.abs(limits.minX - x1),
+      Math.abs(limits.minY - y1),
+    ];
+    sensorDetails.push([relativePoint, distanceToBeacon]);
+  }
+
+  let covered;
+
+  // Todo: This should be optimised!
+  // Brute force check for points that are not covered...
+  for (let row = Math.abs(limits.minY); row < searchLimits.maxY; row++) {
+    console.log("Processing row: ", row);
+    for (let col = Math.abs(limits.minX); col < searchLimits.maxX; col++) {
+      covered = false;
+      for (const [relativePoint, distanceToBeacon] of sensorDetails) {
+        if (manhattanDistance(relativePoint, [col, row]) <= distanceToBeacon) {
+          covered = true;
+        }
+      }
+      if (!covered) {
+        return [row + limits.minY, col + limits.minX];
+      }
+    }
+  }
+};
+
 const part1 = (input) => {
   const sensorReadings = readLinesContainingNumbers(input).map((x) =>
     chunk(x, 2)
@@ -106,7 +135,10 @@ const part1 = (input) => {
   limits.minX = limits.minX - 2000000;
   limits.maxX = limits.maxX + 2000000;
 
-  const grid = addReadings(createGrid(limits), limits, sensorReadings);
+  // Create sparse Array within limits
+  const emptyGrid = new Array(limits.maxY - limits.minY + 1);
+
+  const grid = addReadings(emptyGrid, limits, sensorReadings);
 
   // const checkRowNumber = 2000000; // part 1 input
   const checkRowNumber = 10; // test input
@@ -115,7 +147,22 @@ const part1 = (input) => {
 };
 
 const part2 = (input) => {
-  return null;
+  const sensorReadings = readLinesContainingNumbers(input).map((x) =>
+    chunk(x, 2)
+  );
+
+  const limits = findLimits(sensorReadings);
+
+  const searchLimits = {
+    maxX: 20, // use 4000000 for part 2 input
+    maxY: 20, // use 4000000 for part 2 input
+  };
+
+  const point = searchgrid(sensorReadings, limits, searchLimits);
+
+  console.log(point);
+
+  return point[1] * 4000000 + point[0];
 };
 
 export { part1, part2 };

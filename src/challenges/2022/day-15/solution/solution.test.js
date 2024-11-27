@@ -18,6 +18,6 @@ test("part 1", (t) => {
 });
 
 test("part 2", (t) => {
-  t.equal(part2(input), null);
+  t.equal(part2(input), 56000011);
   t.end();
 });
