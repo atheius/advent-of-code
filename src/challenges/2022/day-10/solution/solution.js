@@ -1,9 +1,16 @@
 import { readLinesOfInstructions, sum } from "../../../../helpers.js";
 
+const updateSignalStrength = (cycle, registerX, signalStrength) => {
+  if (Object.keys(signalStrength).includes(cycle.toString())) {
+    signalStrength[cycle.toString()] = cycle * registerX;
+  }
+  return signalStrength;
+};
+
 const part1 = (input) => {
   const instructions = readLinesOfInstructions(input);
 
-  const signalStrength = {
+  let signalStrength = {
     20: 0,
     60: 0,
     100: 0,
@@ -19,18 +26,12 @@ const part1 = (input) => {
   for (const [instruction, value] of instructions) {
     if (instruction === "noop") {
       cycle += 1;
-      if (keyCycles.includes(cycle.toString())) {
-        signalStrength[cycle.toString()] = cycle * registerX;
-      }
+      signalStrength = updateSignalStrength(cycle, registerX, signalStrength);
     } else if (instruction === "addx") {
       cycle += 1;
-      if (keyCycles.includes(cycle.toString())) {
-        signalStrength[cycle.toString()] = cycle * registerX;
-      }
+      signalStrength = updateSignalStrength(cycle, registerX, signalStrength);
       cycle += 1;
-      if (keyCycles.includes(cycle.toString())) {
-        signalStrength[cycle.toString()] = cycle * registerX;
-      }
+      signalStrength = updateSignalStrength(cycle, registerX, signalStrength);
       registerX = registerX + value;
     }
   }
@@ -41,15 +42,17 @@ const part1 = (input) => {
 const nextCrtPosition = ({ row, col }) =>
   col < 39 ? { row, col: col + 1 } : { row: row + 1, col: 0 };
 
-const isPixelLit = (crtPosition, spritePosition) =>
-  crtPosition.col === spritePosition - 1 ||
-  crtPosition.col === spritePosition ||
-  crtPosition.col === spritePosition + 1;
+const updateCrt = (crtPosition, registerX, crt) => {
+  if (crtPosition.col >= registerX - 1 && crtPosition.col <= registerX + 1) {
+    crt[crtPosition.row][crtPosition.col] = "█";
+  }
+  return crt;
+};
 
 const part2 = (input, printOutput = true) => {
   const instructions = readLinesOfInstructions(input);
 
-  const crt = [0, 0, 0, 0, 0, 0].map(() => Array(40).fill("."));
+  let crt = [0, 0, 0, 0, 0, 0].map(() => Array(40).fill(" "));
 
   let crtPosition = {
     row: 0,
@@ -61,35 +64,25 @@ const part2 = (input, printOutput = true) => {
   for (const [instruction, value] of instructions) {
     if (instruction === "noop") {
       cycle += 1;
-
-      if (isPixelLit(crtPosition, registerX)) {
-        crt[crtPosition.row][crtPosition.col] = "#";
-      }
-
+      crt = updateCrt(crtPosition, registerX, crt);
       crtPosition = nextCrtPosition(crtPosition);
     } else if (instruction === "addx") {
       cycle += 1;
-
-      if (isPixelLit(crtPosition, registerX)) {
-        crt[crtPosition.row][crtPosition.col] = "#";
-      }
-
+      crt = updateCrt(crtPosition, registerX, crt);
       crtPosition = nextCrtPosition(crtPosition);
       cycle += 1;
-
-      if (isPixelLit(crtPosition, registerX)) {
-        crt[crtPosition.row][crtPosition.col] = "#";
-      }
-
+      crt = updateCrt(crtPosition, registerX, crt);
       crtPosition = nextCrtPosition(crtPosition);
       registerX = registerX + value;
     }
   }
 
   if (printOutput) {
+    console.log(" ------------------------------------------ ");
     for (let row = 0; row < 6; row++) {
       console.log("|", crt[row].join(""), "|");
     }
+    console.log(" ------------------------------------------ ");
   }
 
   // Need to read CRT screen for letters
