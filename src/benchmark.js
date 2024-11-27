@@ -40,14 +40,16 @@ for (const year of years) {
       chalk.green(`${perfResult.toFixed(0)}`.padEnd(4))
     );
 
-    const startTime2 = performance.now();
-    part2(input, false);
-    const endTime2 = performance.now();
-    const perfResult2 = (endTime2 - startTime2) * 1000;
-    console.log(
-      `Year ${year} Day ${dayString} Part 02:`,
-      chalk.green(`${perfResult2.toFixed(0)}`.padEnd(4))
-    );
+    if (part2) {
+      const startTime2 = performance.now();
+      part2(input, false);
+      const endTime2 = performance.now();
+      const perfResult2 = (endTime2 - startTime2) * 1000;
+      console.log(
+        `Year ${year} Day ${dayString} Part 02:`,
+        chalk.green(`${perfResult2.toFixed(0)}`.padEnd(4))
+      );
+    }
   }
 }
 
