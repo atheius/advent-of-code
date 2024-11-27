@@ -661,4 +661,108 @@ TODO
 </td>
 </tr>
 
+</tr>
+<tr>
+<td>19</td>
+<td>
+
+[Not Enough Minerals](./src/challenges/2022/day-19/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-19/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>20</td>
+<td>
+
+[Grove Positioning System](./src/challenges/2022/day-20/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-20/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>21</td>
+<td>
+
+[Monkey Math](./src/challenges/2022/day-21/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-21/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>22</td>
+<td>
+
+[Monkey Map](./src/challenges/2022/day-22/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-22/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>23</td>
+<td>
+
+[Unstable Diffusion](./src/challenges/2022/day-23/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-23/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>24</td>
+<td>
+
+[Blizzard Basin](./src/challenges/2022/day-24/README.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-24/solution/solution.js)
+
+</td>
+</tr>
+
+</tr>
+<tr>
+<td>25</td>
+<td>
+
+[Full of Hot Air](./src/challenges/2022/day-25/README.md)
+
+</td>
+<td>
+
+[Part 1](./src/challenges/2022/day-25/solution/solution.js)
+
+</td>
+</tr>
 </table>
