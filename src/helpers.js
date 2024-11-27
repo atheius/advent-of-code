@@ -87,16 +87,31 @@ const getSubstringLocations = (searchStr, str) => {
   return indices;
 };
 
+const manhattanDistance = ([x1, y1], [x2, y2]) =>
+  Math.abs(x1 - x2) + Math.abs(y1 - y2);
+
+const coordinateInList = (coord, listOfCoords) =>
+  listOfCoords.filter((x) => x[0] === coord[0] && x[1] === coord[1]).length;
+
+const printGrid = (grid) => {
+  for (let row = 0; row < grid.length; row++) {
+    console.log("| " + grid[row].join("") + " |");
+  }
+};
+
 export {
   aperture,
   cartesian,
   chunk,
   clone,
+  coordinateInList,
   difference,
   getSubstringLocations,
   intersect,
+  manhattanDistance,
   max,
   min,
+  printGrid,
   product,
   readCommaSeperatedNumbers,
   readLines,

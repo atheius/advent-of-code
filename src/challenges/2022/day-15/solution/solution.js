@@ -3,6 +3,7 @@ import {
   readLinesContainingNumbers,
   min,
   max,
+  manhattanDistance,
 } from "../../../../helpers.js";
 
 // Find the bounds of the grid based on sensor readings
@@ -34,10 +35,6 @@ const findLimits = (sensorReadings) => {
     maxY,
   };
 };
-
-// Calculate Manhatten Distance (see: https://xlinux.nist.gov/dads/HTML/manhattanDistance.html)
-const manhattanDistance = ([x1, y1], [x2, y2]) =>
-  Math.abs(x1 - x2) + Math.abs(y1 - y2);
 
 // Add sensor readings to the grid
 const addReadings = (grid, limits, sensorReadings) => {
