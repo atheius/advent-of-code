@@ -1,4 +1,4 @@
-import { max, readLines } from "../../../../helpers.js";
+import { max, min, readLines } from "../../../../helpers.js";
 
 const parseInput = (input) =>
   readLines(input)
@@ -8,6 +8,17 @@ const parseInput = (input) =>
       Number.parseInt(part[0].split("=")[1], 10),
       [...part[1].matchAll(/[A-Z]{2}/g)].map((match) => match[0]),
     ]);
+
+const findNonZeroValves = (scanOutput) =>
+  scanOutput
+    .map(([valve, flowRate]) => {
+      if (flowRate > 0) {
+        return valve;
+      }
+      return null;
+    })
+    .filter((x) => x)
+    .sort((a, b) => a - b);
 
 class Node {
   constructor(value) {
@@ -84,6 +95,21 @@ const createGraph = (scanOutput) => {
   return graph;
 };
 
+const createShortestPathMap = (graph, nodes) => {
+  const shortestPathMap = {};
+  for (let source of nodes) {
+    for (let destination of nodes) {
+      if (source !== destination) {
+        shortestPathMap[`${source}${destination}`] = graph.shortestPath(
+          source,
+          destination
+        );
+      }
+    }
+  }
+  return shortestPathMap;
+};
+
 // Recursive function to check all possible moves (probably sub-optimal for this problem)
 const nextStep = (
   source,
@@ -120,20 +146,81 @@ const nextStep = (
   return nextMoves;
 };
 
-const findMaxFlow = (move, maxFlow = 0) => {
+const findMaxFlow = (move, maxFlow = 0, path = []) => {
   let nextFlow = move.totalFlow;
+  let nextSteps = [];
 
-  let nestedFlow;
   if (move.nextStep) {
-    for (let nextMove of Object.values(move.nextStep)) {
-      nestedFlow = findMaxFlow(nextMove, nextFlow);
-      if (nestedFlow > nextFlow) {
-        nextFlow = nestedFlow;
+    for (let [key, nextMove] of Object.entries(move.nextStep)) {
+      let next = findMaxFlow(nextMove, nextFlow);
+      if (next.maxFlow > nextFlow) {
+        nextFlow = next.maxFlow;
+        nextSteps = [key, ...next.path];
       }
     }
   }
 
-  return max([nextFlow, maxFlow]);
+  if (nextFlow > maxFlow) {
+    return { maxFlow: nextFlow, path: [...path, ...nextSteps] };
+  }
+
+  return { maxFlow, path };
+};
+
+// This function is a mess and doesn't work (brute force approach)...
+const nextStepWithElephant = (
+  source,
+  elephantSource,
+  shortestPathMap,
+  flowRateMap,
+  valves,
+  currentFlow,
+  remainingTime,
+  remainingTimeElephant,
+  depth = 1
+) => {
+  const nextMoves = {};
+  for (let nextValve of valves) {
+    const remainingValves = valves.filter((valve) => valve !== nextValve);
+    const pathLength = shortestPathMap[`${source}${nextValve}`];
+    const nextRemainingTime = remainingTime - pathLength - 1;
+    const totalFlow =
+      currentFlow + flowRateMap[nextValve] * (remainingTime - pathLength - 1);
+    for (let nextElephantValve of remainingValves) {
+      const nextRemainingValvesWithElephant = remainingValves.filter(
+        (valve) => valve !== nextElephantValve
+      );
+      const elephantPathLength =
+        shortestPathMap[`${elephantSource}${nextElephantValve}`];
+      const nextRemainingTimeElephant =
+        remainingTimeElephant - elephantPathLength - 1;
+      const totalFlowWithElephant =
+        totalFlow +
+        flowRateMap[nextElephantValve] *
+          (remainingTimeElephant - elephantPathLength - 1);
+
+      if (remainingTime > 0) {
+        nextMoves[nextValve + nextElephantValve] = {
+          remainingTime: nextRemainingTime,
+          remainingTimeElephant: nextRemainingTimeElephant,
+          totalFlow: totalFlowWithElephant,
+          remainingValves: nextRemainingValvesWithElephant,
+          nextStep: nextStepWithElephant(
+            nextValve,
+            nextElephantValve,
+            shortestPathMap,
+            flowRateMap,
+            nextRemainingValvesWithElephant,
+            totalFlowWithElephant,
+            nextRemainingTime,
+            nextRemainingTimeElephant,
+            depth + 1
+          ),
+        };
+      }
+    }
+  }
+  return nextMoves;
 };
 
 const part1 = (input) => {
@@ -141,15 +228,7 @@ const part1 = (input) => {
 
   const graph = createGraph(scanOutput);
 
-  const nonZeroValves = scanOutput
-    .map(([valve, flowRate]) => {
-      if (flowRate > 0) {
-        return valve;
-      }
-      return null;
-    })
-    .filter((x) => x)
-    .sort((a, b) => a - b);
+  const nonZeroValves = findNonZeroValves(scanOutput);
 
   // Store a map of valves to flow rate
   const flowRateMap = scanOutput.reduce((acc, [valve, flowRate]) => {
@@ -158,17 +237,10 @@ const part1 = (input) => {
   }, {});
 
   // Store a map of the shortest paths between nodes
-  const shortestPathMap = {};
-  for (let source of ["AA", ...nonZeroValves]) {
-    for (let destination of ["AA", ...nonZeroValves]) {
-      if (source !== destination) {
-        shortestPathMap[`${source}${destination}`] = graph.shortestPath(
-          source,
-          destination
-        );
-      }
-    }
-  }
+  const shortestPathMap = createShortestPathMap(graph, [
+    "AA",
+    ...nonZeroValves,
+  ]);
 
   // Create a map of all possible moves
   const nextSteps = nextStep(
@@ -181,8 +253,7 @@ const part1 = (input) => {
   );
 
   // Find the max flow rate
-  const maxFlow = findMaxFlow({
-    remainingTime: 30,
+  const { maxFlow, path } = findMaxFlow({
     totalFlow: 0,
     nextStep: nextSteps,
   });
@@ -191,7 +262,53 @@ const part1 = (input) => {
 };
 
 const part2 = (input) => {
-  return null;
+  const scanOutput = parseInput(input);
+
+  const graph = createGraph(scanOutput);
+
+  const nonZeroValves = findNonZeroValves(scanOutput);
+
+  // Store a map of valves to flow rate
+  const flowRateMap = scanOutput.reduce((acc, [valve, flowRate]) => {
+    acc[valve] = flowRate;
+    return acc;
+  }, {});
+
+  // Store a map of the shortest paths between nodes
+  const shortestPathMap = createShortestPathMap(graph, [
+    "AA",
+    ...nonZeroValves,
+  ]);
+
+  // Example solution...
+  // JJ ((26-3) * 21 = 483) | DD ((26-2) * 20 = 480)
+  // BB ((23-4) * 13 = 247) | HH ((24-5) * 22 = 418)
+  // CC ((19-2) * 2 = 34)   | EE ((19-4) * 3 = 45)
+  // Answer: 1707
+
+  // Create a map of all possible moves
+  const nextSteps = nextStepWithElephant(
+    "AA", // Start from AA
+    "AA", // Elephant start from AA
+    shortestPathMap,
+    flowRateMap,
+    nonZeroValves,
+    0,
+    26,
+    26
+  );
+
+  // console.log(nextSteps["JJDD"].nextStep["BBHH"].nextStep["CCEE"]);
+
+  // Find the max flow rate
+  const { maxFlow, path } = findMaxFlow({
+    totalFlow: 0,
+    nextStep: nextSteps,
+  });
+
+  console.log(path);
+
+  return maxFlow;
 };
 
 export { part1, part2 };
