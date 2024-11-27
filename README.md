@@ -51,3 +51,480 @@ Run benchmarks with:
 ```sh
 npm run benchmark
 ```
+
+## Puzzles
+
+See below for a list of puzzles and solutions in this repo.
+
+<table style="width: 100%">
+<tr>
+    <th>Year</th>
+    <th>Day</th>
+    <th>Question</th>
+    <th>Solutions</th>
+</tr>
+<tr>
+<td rowspan="25">2021</td>
+<td>01</td>
+<td>
+
+[Sonar Sweep](./src/challenges/2021/day-01/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-01/solution/solution.js)
+
+</td>
+</td>
+
+</tr>
+<tr>
+<td>02</td>
+<td>
+
+[Dive!](./src/challenges/2021/day-02/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-02/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>03</td>
+<td>
+
+[Binary Diagnostic](./src/challenges/2021/day-03/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-03/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>04</td>
+<td>
+
+[Giant Squid](./src/challenges/2021/day-04/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-04/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>05</td>
+<td>
+
+[Hydrothermal Venture](./src/challenges/2021/day-05/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-05/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>06</td>
+<td>
+
+[Lanternfish](./src/challenges/2021/day-06/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-06/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>07</td>
+<td>
+
+[The Treachery of Whales](./src/challenges/2021/day-07/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-07/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>08</td>
+<td>
+
+[Seven Segment Search](./src/challenges/2021/day-08/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-08/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>09</td>
+<td>
+
+[Smoke Basin](./src/challenges/2021/day-09/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-09/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>
+
+[Syntax Scoring](./src/challenges/2021/day-10/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-10/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>11</td>
+<td>
+
+[Dumbo Octopus](./src/challenges/2021/day-11/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-11/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>12</td>
+<td>
+
+[Passage Pathing](./src/challenges/2021/day-12/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-12/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>13</td>
+<td>
+
+[Transparent Origami](./src/challenges/2021/day-13/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-13/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>14</td>
+<td>
+
+[Extended Polymerization](./src/challenges/2021/day-14/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-14/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>15</td>
+<td>
+
+[Chiton](./src/challenges/2021/day-15/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-15/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>16</td>
+<td>
+
+[Packet Decoder](./src/challenges/2021/day-16/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-16/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>17</td>
+<td>
+
+[Trick Shot](./src/challenges/2021/day-17/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-17/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>18</td>
+<td>
+
+[Snailfish](./src/challenges/2021/day-18/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-18/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>19</td>
+<td>
+
+[Beacon Scanner](./src/challenges/2021/day-19/readme.md)
+
+</td>
+<td>
+
+TODO
+
+</td>
+</tr>
+
+<tr>
+<td>20</td>
+<td>
+
+[Trench Map](./src/challenges/2021/day-20/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-20/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>21</td>
+<td>
+
+[Dirac Dice](./src/challenges/2021/day-21/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-21/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>22</td>
+<td>
+
+[Reactor Reboot](./src/challenges/2021/day-22/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-22/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>23</td>
+<td>
+
+[Amphipod](./src/challenges/2021/day-23/readme.md)
+
+</td>
+<td>
+
+TODO
+
+</td>
+</tr>
+
+<tr>
+<td>24</td>
+<td>
+
+[Arithmetic Logic Unit](./src/challenges/2021/day-24/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-24/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>25</td>
+<td>
+
+[Sea Cucumber](./src/challenges/2021/day-25/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2021/day-25/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td rowspan="25">2022</td>
+<td>01</td>
+<td>
+
+[Calorie Counting](./src/challenges/2022/day-01/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-01/solution/solution.js)
+
+</td>
+</td>
+
+</tr>
+<tr>
+<td>02</td>
+<td>
+
+[Rock Paper Scissors](./src/challenges/2022/day-02/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-02/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>03</td>
+<td>
+
+[Rucksack Reorganization](./src/challenges/2022/day-03/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-03/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>04</td>
+<td>
+
+[Camp Cleanup](./src/challenges/2022/day-04/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-04/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>05</td>
+<td>
+
+[Supply Stacks](./src/challenges/2022/day-05/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-05/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>06</td>
+<td>
+
+[Tuning Trouble](./src/challenges/2022/day-06/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-06/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>07</td>
+<td>
+
+[No Space Left On Device](./src/challenges/2022/day-07/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-07/solution/solution.js)
+
+</td>
+</tr>
+
+<tr>
+<td>08</td>
+<td>
+
+[Treetop Tree House](./src/challenges/2022/day-08/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-08/solution/solution.js)
+
+</td>
+</tr>
+<tr>
+<td>09</td>
+<td>
+
+[Rope Bridge](./src/challenges/2022/day-09/readme.md)
+
+</td>
+<td>
+
+[Part 1 and 2](./src/challenges/2022/day-09/solution/solution.js)
+
+</td>
+</tr>
+
+</table>
