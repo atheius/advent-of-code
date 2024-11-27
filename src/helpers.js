@@ -2,6 +2,12 @@ import clone from "just-clone";
 
 const readLines = (input) => input.trim().split("\n");
 
+const readLinesOfCharacters = (input) =>
+  input
+    .trim()
+    .split("\n")
+    .map((x) => x.split(""));
+
 const readLinesOfNumbers = (input) =>
   readLines(input).map((x) => parseInt(x.trim(), 10));
 
@@ -65,6 +71,7 @@ export {
   product,
   readCommaSeperatedNumbers,
   readLines,
+  readLinesOfCharacters,
   readLinesOfDigits,
   readLinesOfInstructions,
   readLinesOfNumbers,
