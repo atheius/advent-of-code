@@ -78,10 +78,9 @@ const createGrid = (width, height, rockLines, mid, addBottom = false) => {
   return grid;
 };
 
-const addSand = (grid, source, maxX, isInfinite = true) => {
+const addSand = (grid, sandCol, maxX, isInfinite = true) => {
   let addedSand = 0;
   let finished = false;
-  let [sandRow, sandCol] = source;
 
   let stopped = false;
   let down = 0;
@@ -89,40 +88,35 @@ const addSand = (grid, source, maxX, isInfinite = true) => {
   while (!stopped) {
     if (
       isInfinite &&
-      (currentX < 0 ||
-        currentX > grid[0].length - 1 ||
-        sandRow + down > grid.length - 1)
+      (currentX < 0 || currentX > grid[0].length - 1 || down > grid.length - 1)
     ) {
       stopped = true;
       break;
     }
 
-    if (grid[sandRow + down][currentX] !== ".") {
-      if (grid[sandRow + down][currentX - 1] === "." || currentX - 1 < 0) {
+    if (grid[down][currentX] !== ".") {
+      if (grid[down][currentX - 1] === "." || currentX - 1 < 0) {
         // diagonal left
         currentX -= 1;
-      } else if (
-        grid[sandRow + down][currentX + 1] === "." ||
-        currentX + 1 > maxX
-      ) {
+      } else if (grid[down][currentX + 1] === "." || currentX + 1 > maxX) {
         // diagonal right
         currentX += 1;
       } else {
+        // down
         stopped = true;
-        if (sandRow + down === source[0] && currentX === source[1]) {
-          addedSand += 1;
-          grid[source[0] - 1][source[1]] = "o";
+        addedSand += 1;
+        if (down === 1 && currentX === sandCol) {
+          grid[0][sandCol] = "o";
           finished = true;
         } else {
-          addedSand += 1;
-          grid[sandRow + down - 1][currentX] = "o";
+          grid[down - 1][currentX] = "o";
         }
       }
     }
     down += 1;
   }
 
-  return { grid, addedSand, finished };
+  return { updatedGrid: grid, addedSand, finished };
 };
 
 const printGrid = (grid) => {
@@ -131,71 +125,62 @@ const printGrid = (grid) => {
   }
 };
 
-const part1 = (input) => {
-  const rockLines = readLines(input).map((x) =>
+const runSimulation = (grid, sandSourceRelativeX, maxX) => {
+  let keepAddingSand = true;
+  let nextGrid = grid;
+  let grainsOfSand = 0;
+  while (keepAddingSand) {
+    const res = addSand(nextGrid, sandSourceRelativeX, maxX);
+    nextGrid = res.updatedGrid;
+    grainsOfSand += res.addedSand;
+    if (res.addedSand === 0 || res.finished) {
+      keepAddingSand = false;
+    }
+  }
+  return grainsOfSand;
+};
+
+const parseInput = (input) =>
+  readLines(input).map((x) =>
     x.split(" -> ").map((x) => x.split(",").map((x) => Number.parseInt(x, 10)))
   );
 
+const part1 = (input) => {
+  const rockLines = parseInput(input);
+
   const { minX, maxX, minY, maxY } = findLimits(rockLines);
+  const sandSourceRelativeX = 500 - minX;
 
-  const sandSource = [1, 500 - minX];
+  const grid = createGrid(
+    maxX - minX + 1,
+    maxY - minY + 1,
+    rockLines,
+    sandSourceRelativeX
+  );
 
-  const mid = 500 - minX;
-
-  const grid = createGrid(maxX - minX + 1, maxY - minY + 1, rockLines, mid);
-
-  let keepAddingSand = true;
-  let nextGrid = grid;
-  let i = 0;
-  let grainsOfSand = 0;
-  while (keepAddingSand) {
-    const res = addSand(nextGrid, sandSource, maxX);
-    nextGrid = res.grid;
-    grainsOfSand += res.addedSand;
-    if (res.addedSand === 0) {
-      keepAddingSand = false;
-    }
-    i += 1;
-  }
+  const grainsOfSand = runSimulation(grid, sandSourceRelativeX, maxX);
 
   return grainsOfSand;
 };
 
 const part2 = (input) => {
-  const rockLines = readLines(input).map((x) =>
-    x.split(" -> ").map((x) => x.split(",").map((x) => Number.parseInt(x, 10)))
-  );
+  const rockLines = parseInput(input);
+
+  // Set sensible bound for floor size (could be infinitely long)
+  const floorSize = 300;
 
   const { minX, maxX, minY, maxY } = findLimits(rockLines);
-
-  const sandSource = [1, 500 - minX + 200];
-
-  const mid = 500 - minX + 200;
+  const sandSourceRelativeX = 500 - minX + floorSize / 2;
 
   const grid = createGrid(
-    maxX - minX + 400,
+    maxX - minX + floorSize,
     maxY - minY + 3,
     rockLines,
-    mid,
+    sandSourceRelativeX,
     true
   );
 
-  let grainsOfSand = 0;
-
-  let keepAddingSand = true;
-  let nextGrid = grid;
-  let i = 0;
-  while (keepAddingSand) {
-    const res = addSand(nextGrid, sandSource, maxX);
-    nextGrid = res.grid;
-
-    grainsOfSand += res.addedSand;
-
-    if (res.finished) {
-      keepAddingSand = false;
-    }
-    i += 1;
-  }
+  const grainsOfSand = runSimulation(grid, sandSourceRelativeX, maxX);
 
   return grainsOfSand;
 };
