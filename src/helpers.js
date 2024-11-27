@@ -60,6 +60,11 @@ const union = (a, b) => [...new Set([...a, ...b])];
 const cartesian = (...a) =>
   a.reduce((a, b) => a.flatMap((d) => b.map((e) => [d, e].flat())));
 
+const rotate = (arr, n) => {
+  n = n % arr.length;
+  return arr.slice(n, arr.length).concat(arr.slice(0, n));
+};
+
 // Returns a new list, composed of n-tuples of consecutive elements (sliding window)
 const aperture = (size, arr) =>
   arr.flatMap((_, i) =>
@@ -100,6 +105,7 @@ export {
   readLinesOfDigits,
   readLinesOfInstructions,
   readLinesOfNumbers,
+  rotate,
   sortAscending,
   sortDescending,
   sum,
