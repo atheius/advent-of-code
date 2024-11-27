@@ -66,12 +66,29 @@ const aperture = (size, arr) =>
     i <= arr.length - size ? [arr.slice(i, i + size)] : []
   );
 
+// Returns all indices of substring in string
+const getSubstringLocations = (searchStr, str) => {
+  let searchStrLen = searchStr.length;
+  if (searchStrLen == 0) {
+    return [];
+  }
+  let startIndex = 0,
+    index,
+    indices = [];
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+    indices.push(index);
+    startIndex = index + searchStrLen;
+  }
+  return indices;
+};
+
 export {
   aperture,
   cartesian,
   chunk,
   clone,
   difference,
+  getSubstringLocations,
   intersect,
   max,
   min,
