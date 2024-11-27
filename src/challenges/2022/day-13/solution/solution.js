@@ -46,7 +46,7 @@ const part1 = (input) => {
   const packets = input
     .trim()
     .split("\n\n")
-    .map((x) => x.split("\n").map((x) => eval(x.trim())));
+    .map((x) => x.split("\n").map((x) => JSON.parse(x.trim())));
 
   let sumCorrectIndexes = 0;
   let index = 1;
@@ -64,7 +64,7 @@ const part2 = (input) => {
   let packets = input
     .trim()
     .split("\n\n")
-    .map((x) => x.split("\n").map((x) => eval(x.trim())))
+    .map((x) => x.split("\n").map((x) => JSON.parse(x.trim())))
     .reduce((acc, curr) => [...acc, curr[0], curr[1]], []);
 
   packets.push([[2]]);
