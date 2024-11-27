@@ -9,6 +9,11 @@ const readLinesOfDigits = (input) =>
 const readCommaSeperatedNumbers = (input) =>
   input.split(",").map((x) => parseInt(x, 10));
 
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
 const sum = (x) => x.reduce((a, b) => a + b, 0);
 
 const product = (x) => x.reduce((a, b) => a * b, 1);
@@ -26,6 +31,8 @@ const symmetricDifference = (a, b) =>
 
 const difference = (a, b) => a.filter((x) => !b.includes(x));
 
+const intersect = (a, b) => [...new Set([...a].filter((i) => b.has(i)))];
+
 const transpose = (x) => x[0].map((_, i) => x.map((row) => row[i]));
 
 const union = (a, b) => [...new Set([...a, ...b])];
@@ -38,6 +45,7 @@ export {
   readLinesOfNumbers,
   readLinesOfDigits,
   readCommaSeperatedNumbers,
+  chunk,
   sum,
   product,
   min,
@@ -45,6 +53,7 @@ export {
   sortAscending,
   sortDescending,
   difference,
+  intersect,
   symmetricDifference,
   transpose,
   union,
