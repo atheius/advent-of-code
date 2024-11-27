@@ -37,6 +37,16 @@ const getPuzzleInput = async (year, day) => {
       .toString()
       .padStart(2, "0")}/input.txt`;
 
+    if (fs.existsSync(inputFile)) {
+      const existingData = fs.readFileSync(inputFile, "utf8");
+      if (
+        existingData !==
+        "Please don't repeatedly request this endpoint before it unlocks!"
+      ) {
+        return existingData;
+      }
+    }
+
     const res = await fetch(`${BASE_URL}/${year}/day/${day}/input`, {
       headers: requestHeaders,
       method: "GET",
